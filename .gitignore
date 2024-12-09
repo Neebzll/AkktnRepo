@@ -262,8 +262,13 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
+<<<<<<< Updated upstream
 *.mdf
 *.ldf
+=======
+#*.mdf
+#*.ldf
+>>>>>>> Stashed changes
 *.ndf
 
 # Business Intelligence projects
