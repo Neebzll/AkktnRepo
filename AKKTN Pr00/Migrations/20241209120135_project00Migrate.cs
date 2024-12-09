@@ -78,6 +78,7 @@ namespace AKKTN_Pr00.Migrations
                     CompanyID = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     RegistrationNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    companypass = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactName1 = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     Email1 = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
