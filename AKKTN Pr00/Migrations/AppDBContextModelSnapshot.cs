@@ -33,6 +33,11 @@ namespace AKKTN_Pr00.Migrations
                     b.Property<DateTime>("CIPCRegistrationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<string>("CompanyID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AKKTN_Pr00.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20241206154044_Project00Migrate")]
-    partial class Project00Migrate
+    [Migration("20241209120135_project00Migrate")]
+    partial class project00Migrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,11 @@ namespace AKKTN_Pr00.Migrations
 
                     b.Property<DateTime>("CIPCRegistrationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("CompanyID")
                         .IsRequired()

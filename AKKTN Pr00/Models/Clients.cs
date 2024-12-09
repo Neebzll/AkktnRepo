@@ -8,7 +8,9 @@ namespace AKKTN_Pr00.Models
         public int ClientID { get; set; }
      
         public string CompanyID { get; set; }
-        
+        [Required]
+        [StringLength(150, ErrorMessage = "Name must be under 150 characters")]
+        public string ClientName { get; set; }
         [Required]
         [StringLength(13, ErrorMessage = "Registration number must be under 13 characters")]
         public string RegistrationNumber { get; set; }

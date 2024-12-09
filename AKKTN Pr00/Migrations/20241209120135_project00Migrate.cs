@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AKKTN_Pr00.Migrations
 {
     /// <inheritdoc />
-    public partial class Project00Migrate : Migration
+    public partial class project00Migrate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,7 @@ namespace AKKTN_Pr00.Migrations
                     ClientID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     RegistrationNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     CIPCRegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IncomeTaxNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
