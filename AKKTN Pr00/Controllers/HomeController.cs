@@ -17,7 +17,7 @@ namespace AKKTN_Pr00.Controllers
         public IActionResult Index()
         {
             
-            return View(_db.admintbls.ToList());
+            return View(_db.companies.ToList());
         }
 
         public IActionResult Privacy()

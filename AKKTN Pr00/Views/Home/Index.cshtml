@@ -1,21 +1,21 @@
-﻿@model IEnumerable<admintbl>
+﻿@model IEnumerable<Company>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>building Web apps with ASP.NET Core with Ngcebo,Thabs Thabiso</a>.</p>
 </div>
-@* 
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.adminID)
+                @Html.DisplayNameFor(model => model.CompanyID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.email)
+                @Html.DisplayNameFor(model => model.CompanyName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cell)
+                @Html.DisplayNameFor(model => model.companypass)
             </th>
             <th></th>
         </tr>
@@ -25,15 +25,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.adminID)
+                    @Html.DisplayFor(modelItem => item.CompanyID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.email)
+                    @Html.DisplayFor(modelItem => item.CompanyName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.cell)
+                    @Html.DisplayFor(modelItem => item.companypass)
                 </td>
             </tr>
         }
     </tbody>
-</table> *@
+</table>

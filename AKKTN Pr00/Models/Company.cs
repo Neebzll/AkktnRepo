@@ -11,7 +11,11 @@ namespace AKKTN_Pr00.Models
         [Required]
         [StringLength(150,ErrorMessage ="Name must be under 150 characters")]
         public string CompanyName { get; set; }
-        
+        [Required]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$",
+    ErrorMessage = "Password must be at least 10 characters long and contain at least one uppercase letter, one number, and one special character.")]
+        public string companypass { get; set; }
+
         [Required]
         [StringLength(13,ErrorMessage ="Registration number must be under 13 characters")]
         public string RegistrationNumber { get; set; }
