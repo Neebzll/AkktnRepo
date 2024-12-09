@@ -1,3 +1,4 @@
+using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,16 +7,17 @@ namespace AKKTN_Pr00.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private AppDBContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDBContext db)
         {
-            _logger = logger;
+            _db = db;
         }
 
         public IActionResult Index()
         {
-            return View();
+            
+            return View(_db.admintbls.ToList());
         }
 
         public IActionResult Privacy()
