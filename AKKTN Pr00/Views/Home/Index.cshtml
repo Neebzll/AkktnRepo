@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Company>
+﻿@model IEnumerable<Clients>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -9,13 +9,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CompanyID)
+                @Html.DisplayNameFor(model => model.ClientName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.companypass)
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
             </th>
             <th></th>
         </tr>
@@ -24,16 +21,15 @@
         @foreach (var item in Model)
         {
             <tr>
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.CompanyID)
+                    @Html.DisplayFor(modelItem => item.ClientName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CompanyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.companypass)
+                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<a class="btn btn-primary" href="@Url.Action("Index", "Home", new { user = "admin" })">Reveal Registration</a>
