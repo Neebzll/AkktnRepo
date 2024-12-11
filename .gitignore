@@ -262,8 +262,8 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
-#*.mdf
-#*.ldf
+*.mdf
+*.ldf
 *.ndf
 
 # Business Intelligence projects
@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /.gitignore
 /AKKTN Pr00/App_data/Project00.mdf
 /AKKTN Pr00/App_data/Project00.ldf
+*.zip
