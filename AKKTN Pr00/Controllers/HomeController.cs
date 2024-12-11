@@ -1,7 +1,9 @@
 using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Data;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -14,12 +16,22 @@ namespace AKKTN_Pr00.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
-        {
-            
-            return View(_db.companies.ToList());
-        }
+    
 
+                public IActionResult Index(string user)
+        {
+            string query = "";
+            if (user == "admin") {
+                query = "Select * from unmaskedclients";//reveals the masked columns
+            }
+            else
+            {
+                query = "Select * from maskedClientsTbl";
+            }
+            
+            var companies = _db.clients.FromSqlRaw(query).ToList();
+            return View(companies);
+        }
         public IActionResult Privacy()
         {
             return View();
