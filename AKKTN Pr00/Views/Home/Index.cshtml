@@ -5,7 +5,7 @@
     <p>building Web apps with ASP.NET Core with Ngcebo,Thabs Thabiso</a>.</p>
 </div>
 
-<table class="table">
+@* <table class="table">
     <thead>
         <tr>
             <th>
@@ -14,7 +14,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.RegistrationNumber)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.WCC)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -27,9 +29,13 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                </td> 
+                <td>
+                    @(item.WCC ? "Yes" : "No")
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a class="btn btn-primary" href="@Url.Action("Index", "Home", new { user = "admin" })">Reveal Registration</a>
+<a class="btn btn-primary" href="@Url.Action("Index", "Home",  new { user = "admin" })">Reveal Registration</a>
+ *@

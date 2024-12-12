@@ -1,0 +1,119 @@
+﻿@model AKKTN_Pr00.Models.Clients
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Clients</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ClientID" />
+            <div class="form-group">
+                <label asp-for="CompanyID" class="control-label"></label>
+                <input asp-for="CompanyID" class="form-control" />
+                <span asp-validation-for="CompanyID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientName" class="control-label"></label>
+                <input asp-for="ClientName" class="form-control" />
+                <span asp-validation-for="ClientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegistrationNumber" class="control-label"></label>
+                <input asp-for="RegistrationNumber" class="form-control" />
+                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CIPCRegistrationDate" class="control-label"></label>
+                <input asp-for="CIPCRegistrationDate" class="form-control" />
+                <span asp-validation-for="CIPCRegistrationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IncomeTaxNumber" class="control-label"></label>
+                <input asp-for="IncomeTaxNumber" class="form-control" />
+                <span asp-validation-for="IncomeTaxNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="VAT" /> @Html.DisplayNameFor(model => model.VAT)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="VATPeriod" class="control-label"></label>
+                <input asp-for="VATPeriod" class="form-control" />
+                <span asp-validation-for="VATPeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PayeeNumber" /> @Html.DisplayNameFor(model => model.PayeeNumber)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayeeReferenceNumber" class="control-label"></label>
+                <input asp-for="PayeeReferenceNumber" class="form-control" />
+                <span asp-validation-for="PayeeReferenceNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="EMP501" /> @Html.DisplayNameFor(model => model.EMP501)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="UIF" /> @Html.DisplayNameFor(model => model.UIF)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="UIFNumber" class="control-label"></label>
+                <input asp-for="UIFNumber" class="form-control" />
+                <span asp-validation-for="UIFNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="WCC" /> @Html.DisplayNameFor(model => model.WCC)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="WCCNumber" class="control-label"></label>
+                <input asp-for="WCCNumber" class="form-control" />
+                <span asp-validation-for="WCCNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Payroll" /> @Html.DisplayNameFor(model => model.Payroll)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="MonthlyCashbook" /> @Html.DisplayNameFor(model => model.MonthlyCashbook)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="FinancialStatements" /> @Html.DisplayNameFor(model => model.FinancialStatements)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IncomeTaxReturn" /> @Html.DisplayNameFor(model => model.IncomeTaxReturn)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
