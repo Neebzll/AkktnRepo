@@ -1,7 +1,7 @@
-using AKKTN_Pr00.Data;
-using AKKTN_Pr00.Data;
+using Login_and_Registration.Data;
+using Login_and_Registration.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
