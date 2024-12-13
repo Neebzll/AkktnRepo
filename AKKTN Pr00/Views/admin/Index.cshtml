@@ -1,0 +1,95 @@
+﻿@model IEnumerable<AKKTN_Pr00.Models.admintbl>
+
+<style>
+.footer {
+        display: none;
+    }
+
+    .nav-link {
+        display: none;
+    }
+
+        .itemHide .nav-link.text-dark.signed{
+            display:none;
+        }
+
+</style>
+
+
+
+<h1 class="display-5">Enter Admin credentials</h1>
+<hr/>
+<form  method="post" asp-action="Index" asp-controller="admin" >
+
+    <div class="col-lg-7">
+        <div class="shadow-sm" style="border-radius:5px;">
+            <div class="row mt-2">
+                <div class="form-floating mt-3 mb-3 col-lg-11" style="margin-left:2%">
+                    <input type="email" name="adminemail" id="adminemail" class="form-control" placeholder="Enter email address" required />
+                    <label for="adminemail">&nbspEnter email address</label>
+
+                </div>
+            </div>
+
+            <div class="form-floating col-lg-11" style="margin-left:2%">
+                <input type="password" name="adminpass" id="adminpass" class="form-control" placeholder="Enter Admin Password" required />
+                <label for="adminpass">&nbspEnter Admin Password</label>
+            </div> 
+
+            <span>@Html.ValidationMessage("Error", null, new { @class = "text text-danger", @id = "Error" })</span><br />
+
+            
+            <button class="btn btn-primary" style="margin-left:2%" type="submit">Submit</button>
+        </div>
+        
+        </div>
+        
+@*     <div class="form-floating mt-3 mb-3 col-lg-4" style="margin-left:2%">
+        <input type="text" for="FirstName" class="form-control" id="floatingInput" placeholder="enter name" required>
+        <label for="floatingInput">&nbsp Enter your first name</label>
+
+    </div> *@
+
+</form>
+
+@* 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cell)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.adminpass)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cell)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adminpass)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.adminID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.adminID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.adminID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+ *@

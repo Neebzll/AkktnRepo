@@ -1,0 +1,114 @@
+﻿@model IEnumerable<AKKTN_Pr00.Models.Company>
+<style>
+    .nav-link {
+    display: none;
+    }
+
+    .itemHide .nav-link.text-dark.signed {
+    display: block;
+    }
+    .table{
+    margin-left:-15%;
+    }
+    .btn .btn-outline-primary{
+    padding-left:5px;
+
+    }
+</style>
+@{
+    ViewData["Title"] = "AdminDash";
+}
+
+<h1 class="display-5">Admin Dashboard</h1>
+<hr style="margin-left:-15%"/>
+<table class="table" style="padding-right:0px;margin-right:0px" >
+    <thead>
+        <tr>
+            <th>
+                Company Name
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                Registration Number
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell2)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    #######
+                </td>
+                <td>
+                    @{
+                        string reg = "";
+                        for(int i=0;i<=item.RegistrationNumber.Length;i++){
+                            if(i<=2){
+                                reg += item.RegistrationNumber[i];
+                            }
+                            else{
+                                reg += "#";
+                            }
+                        }
+                        @Html.DisplayFor(modelItem=>reg);
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cell1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cell2)
+            </td>
+            <td>
+                    <ul style="list-style:none;text-decoration:none;" class="d-flex flex-row">
+                        <li><a class="btn btn-outline-primary  " asp-action="Details" asp-route-id="@item.CompanyID">Details</a> </li>
+                        <li> <a class="btn btn-outline-info  " asp-action="Edit" asp-route-id="@item.CompanyID">Edit</a> </li>
+                        <li><a class="btn btn-outline-danger  " asp-action="Delete" asp-route-id="@item.CompanyID">Delete</a></li>
+                    </ul>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

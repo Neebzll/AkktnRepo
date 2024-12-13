@@ -1,5 +1,14 @@
 ﻿@{
-    var signedin = Context.Session.GetString("Signed");
+    var signedin =  Context.Session.GetString("Signed");
+    if(!signedin.Equals("not signed-in")){
+        signedin = "Signed as: " + signedin;
+    }
+    // if (Context.Session.GetString("Signed").Equals("")){
+    //     signedin = "Not signed-in";
+    // }else{
+    //     signedin = "Signed as: "+Context.Session.GetString("Signed");
+    // }
+    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -22,20 +31,29 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <div class="itemHide">
+                        <li class="nav-item ">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                </div>
+                    <div class="itemHide">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
-                        </li>                        
-                        <li class="nav-item ms-auto">
-                            <a class="nav-link text-dark " style="float:right">Signed-in as @signedin</a>
                         </li>
+                </div>
+              
+                        <li class="nav-item ms-auto">
+                    <div class="itemHide">
+                            <a class="nav-link text-dark signed"  style="float:right">@signedin</a>
+                    </div>
+                        </li>
+             
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

@@ -14,9 +14,14 @@ namespace AKKTN_Pr00.Controllers
         public HomeController(AppDBContext db)
         {
             _db = db;
+          
         }
         public IActionResult Index()
         {
+            if (!HttpContext.Session.Keys.Contains("Signed"))
+            {
+                HttpContext.Session.SetString("Signed", "not signed-in");//doesnt show anyone logged as default
+            }
 
             return View(_db.clients.ToList());
         }
