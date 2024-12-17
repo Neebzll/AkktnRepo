@@ -33,12 +33,12 @@
                     <ul class="navbar-nav flex-grow-1">
                         <div class="itemHide">
                         <li class="nav-item ">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CompanyTeams" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Team-Members</a>
                         </li>
                 </div>
                     <div class="itemHide">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Clients</a>
                         </li>
                 </div>
               

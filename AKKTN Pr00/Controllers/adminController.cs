@@ -21,6 +21,9 @@ namespace AKKTN_Pr00.Controllers
         }
         public ActionResult AdminDash()
         {
+            ViewData["Name"] = "";
+            ViewData["ID"] = "";
+            ViewData["client"] = "";
             HttpContext.Session.SetString("Signed", "admin@gmail.com");
             return View(_context.companies.ToList());
         }

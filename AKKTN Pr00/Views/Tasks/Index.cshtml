@@ -1,0 +1,60 @@
+﻿@model IEnumerable<AKKTN_Pr00.Models.Tasks>
+
+
+<h1>@ViewData["name"] Tasks</h1>
+<p>for @ViewData["client"]</p>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignTaskDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reminders)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignTaskDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reminders)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskStatus)
+            </td>
+            <td>
+                
+                <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.TaskID">Details</a> 
+                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.TaskID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

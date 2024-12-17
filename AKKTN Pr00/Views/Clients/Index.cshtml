@@ -3,6 +3,7 @@
     var isAdmin = ViewData["isAdmin"] as bool? ?? false;
 }
 <h1 >@ViewData["Name"] Clients</h1>
+<hr/>
 <!-- Admin Password Form (Initially hidden) -->
 <div id="adminPasswordFormTemplate" style="display:none; margin-top: 20px;">
     <form method="post" asp-action="Index" asp-controller="Clients">
@@ -17,7 +18,7 @@
     </form>
 </div>
 <p>
-    <a asp-action="Create" asp-controller="Clients" asp-action="Create" asp-route-id="@ViewData["ID"]">Create New</a>
+    <a class="btn btn-outline-secondary" asp-action="Create" class="adminButton" asp-controller="Clients" asp-action="Create" asp-route-id="@ViewData["ID"]">Add new client</a>
 </p>
 @{
     if (Model==null)
@@ -48,9 +49,14 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
                         <td>
-                            @{
+                            <a href="#" style="margin-left:10px" id="Details" class="adminButton"
+                               data-clientid="@item.ClientID"
+                               data-companyid="@item.CompanyID"
+                               data-action="Details">@item.ClientName</a>
+                        </td>
+                        <td>                                                 
+                            @{                                               
                                 if (isAdmin)
                                 {
                                     @Html.DisplayFor(modelItem => item.RegistrationNumber)
@@ -76,14 +82,11 @@
                                data-clientid="@item.ClientID"
                                data-companyid="@item.CompanyID"
                                data-action="Edit">Edit</a> 
-                            <a href="#" style="margin-left:10px" id="Details" class="adminButton btn btn-outline-primary"
-                               data-clientid="@item.ClientID"
-                               data-companyid="@item.CompanyID"
-                               data-action="Details">Details</a> 
                             <a href="#" style="margin-left:10px" id="Delete" class="adminButton btn btn-outline-danger"
                                data-clientid="@item.ClientID"
                                data-companyid="@item.CompanyID"
                                data-action="Delete">Delete</a>
+                            <a style="margin-left:10px" asp-action="Index" asp-controller="Tasks" asp-route-clientid="@item.ClientID" asp-route-id="@item.CompanyID" class="btn btn-outline-warning">Tasks</a>
                         </td>
                     </tr>
                 }

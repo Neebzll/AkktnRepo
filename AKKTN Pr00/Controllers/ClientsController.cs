@@ -14,7 +14,7 @@ namespace AKKTN_Pr00.Controllers
     {
         private readonly AppDBContext _context;
         private readonly string AdminPassword = "1234";
-        private readonly string companyID_signedin = "Devp#5879";
+        //private readonly string companyID_signedin = "Devp#5879";
 
         public ClientsController(AppDBContext context)
         {
@@ -120,7 +120,7 @@ namespace AKKTN_Pr00.Controllers
         // GET: Clients/Create
         public IActionResult Create(string? id)
         {
-            ViewData["id"] = id;
+            ViewData["ID"] = id;
             return View();
         }
 

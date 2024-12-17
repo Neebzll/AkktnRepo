@@ -23,6 +23,7 @@ namespace AKKTN_Pr00.Models
 
         [Required]
         [StringLength(11, ErrorMessage = "Cellphone Number must at least be under 11 characters")]
+        [MinLength(10,ErrorMessage ="least be 10 digits")]
         public string Cell { get; set; }
 
         [Required]
