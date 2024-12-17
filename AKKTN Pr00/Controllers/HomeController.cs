@@ -23,7 +23,7 @@ namespace AKKTN_Pr00.Controllers
                 HttpContext.Session.SetString("Signed", "not signed-in");//doesnt show anyone logged as default
             }
 
-            return View(_db.clients.ToList());
+            return View();
         }
     
 

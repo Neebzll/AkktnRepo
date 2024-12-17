@@ -2,7 +2,7 @@
 @{
     var isAdmin = ViewData["isAdmin"] as bool? ?? false;
 }
-
+<h1 >@ViewData["Name"] Clients</h1>
 <!-- Admin Password Form (Initially hidden) -->
 <div id="adminPasswordFormTemplate" style="display:none; margin-top: 20px;">
     <form method="post" asp-action="Index" asp-controller="Clients">
@@ -16,79 +16,94 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-
-<h1>Index</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-controller="Clients" asp-action="Create" asp-route-id="@ViewData["ID"]">Create New</a>
 </p>
+@{
+    if (Model==null)
+    {
+        <p>Company has no clients</p>
+    }else{
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">@Html.DisplayNameFor(model => model.ClientName)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.RegistrationNumber)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.VAT)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.VATPeriod)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.PayeeNumber)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.EMP501)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.UIF)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.WCC)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.Payroll)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.MonthlyCashbook)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.FinancialStatements)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.IncomeTaxReturn)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
-                <td>
-                    @if (isAdmin)
-                    {
-                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
-                    }
-                    else
-                    {
-                        <span>##########</span>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.VAT)</td>
-                <td>@Html.DisplayFor(modelItem => item.VATPeriod)</td>
-                <td>@(item.PayeeNumber ? "Yes" : "No")</td>
-                <td>@(item.EMP501 ? "Yes" : "No")</td>
-                <td>@(item.UIF ? "Yes" : "No")</td>
-                <td>@(item.WCC ? "Yes" : "No")</td>
-                <td>@(item.Payroll ? "Yes" : "No")</td>
-                <td>@(item.MonthlyCashbook ? "Yes" : "No")</td>
-                <td>@(item.FinancialStatements ? "Yes" : "No")</td>
-                <td>@(item.IncomeTaxReturn ? "Yes" : "No")</td>
-                <td>
-                    <a href="#" class="adminButton"
-                       data-clientid="@item.ClientID"
-                       data-companyid="@item.CompanyID"
-                       data-action="Edit">Edit</a> |
-                    <a href="#" class="adminButton"
-                       data-clientid="@item.ClientID"
-                       data-companyid="@item.CompanyID"
-                        data-action="Details"
-                    >Details</a> |
-                    <a href="#" class="adminButton"
-                       data-clientid="@item.ClientID"
-                       data-companyid="@item.CompanyID"
-                       data-action="Delete">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(model => model.ClientName)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.RegistrationNumber)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.VAT)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.VATPeriod)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.PayeeNumber)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.EMP501)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.UIF)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.WCC)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Payroll)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.MonthlyCashbook)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.FinancialStatements)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.IncomeTaxReturn)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                        <td>
+                            @{
+                                if (isAdmin)
+                                {
+                                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                                }
+                                else
+                                {
+                                    <span>##########</span>
+                                }
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.VAT)</td>
+                        <td>@Html.DisplayFor(modelItem => item.VATPeriod)</td>
+                        <td>@(item.PayeeNumber ? "Yes" : "No")</td>
+                        <td>@(item.EMP501 ? "Yes" : "No")</td>
+                        <td>@(item.UIF ? "Yes" : "No")</td>
+                        <td>@(item.WCC ? "Yes" : "No")</td>
+                        <td>@(item.Payroll ? "Yes" : "No")</td>
+                        <td>@(item.MonthlyCashbook ? "Yes" : "No")</td>
+                        <td>@(item.FinancialStatements ? "Yes" : "No")</td>
+                        <td>@(item.IncomeTaxReturn ? "Yes" : "No")</td>
+                        <td class="d-flex flex-row">
+                            <a href="#" id="Edit" style="margin-left:10px" class="adminButton btn btn-outline-info"
+                               data-clientid="@item.ClientID"
+                               data-companyid="@item.CompanyID"
+                               data-action="Edit">Edit</a> 
+                            <a href="#" style="margin-left:10px" id="Details" class="adminButton btn btn-outline-primary"
+                               data-clientid="@item.ClientID"
+                               data-companyid="@item.CompanyID"
+                               data-action="Details">Details</a> 
+                            <a href="#" style="margin-left:10px" id="Delete" class="adminButton btn btn-outline-danger"
+                               data-clientid="@item.ClientID"
+                               data-companyid="@item.CompanyID"
+                               data-action="Delete">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
 
 <script>
-    document.querySelectorAll('.adminButton').forEach(button => {
+
+       document.querySelectorAll('.adminButton').forEach(button => {
         button.addEventListener('click', function (e) {
             e.preventDefault(); // Prevent default link behavior
+
+            // Hide all the other buttons in the same row
+            const row = this.closest('tr');
+            const otherButtons = row.querySelectorAll('.adminButton');
+            otherButtons.forEach(btn => btn.style.display = 'none'); // Hide all CRUD buttons
 
             // Show the admin password form
             const formTemplate = document.getElementById('adminPasswordFormTemplate');
@@ -104,8 +119,9 @@
             // Append the form below the clicked button
             this.parentElement.appendChild(formClone);
 
-            // Hide the admin button after click
+            // Hide the clicked button after click
             this.style.display = "none";
         });
     });
+
 </script>

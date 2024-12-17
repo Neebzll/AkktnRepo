@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -20,7 +21,7 @@ namespace AKKTN_Pr00.Controllers
         }
         public ActionResult AdminDash()
         {
-            //HttpContext.Session.SetString("Signed", "admin@gmail.com");
+            HttpContext.Session.SetString("Signed", "admin@gmail.com");
             return View(_context.companies.ToList());
         }
         // GET: admin
@@ -42,6 +43,7 @@ namespace AKKTN_Pr00.Controllers
                 {
                     // Save to session if valid
                     HttpContext.Session.SetString("Signed", findemail.email);
+                    HttpContext.Session.SetString("isAdmin", "true");
 
                     // Redirect to Home controller if login is successful
                     return RedirectToAction("AdminDash");
@@ -64,21 +66,23 @@ namespace AKKTN_Pr00.Controllers
 
 
         // GET: admin/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+        public async Task<IActionResult> Details(string? name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var admintbl = await _context.admintbls
-                .FirstOrDefaultAsync(m => m.adminID == id);
-            if (admintbl == null)
+            var comtbl = await _context.companies
+                .FirstOrDefaultAsync(m => m.CompanyName == name);
+            if (comtbl == null)
             {
                 return NotFound();
             }
-
-            return View(admintbl);
+            
+            return RedirectToAction("Index", "Clients", new { id = comtbl.CompanyID, name=comtbl.CompanyName });
+            //return RedirectToAction("Index", "Companies", new { name = comtbl.CompanyName });
         }
 
         // GET: admin/Create
@@ -104,72 +108,72 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: admin/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var admintbl = await _context.admintbls.FindAsync(id);
-            if (admintbl == null)
+            var com = await _context.companies.FindAsync(id);
+            if (com == null)
             {
                 return NotFound();
             }
-            return View(admintbl);
+            return RedirectToAction("Edit", "Companies", new { id = id });
         }
 
         // POST: admin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("adminID,email,cell,adminpass")] admintbl admintbl)
-        {
-            if (id != admintbl.adminID)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("adminID,email,cell,adminpass")] admintbl admintbl)
+        //{
+        //    if (id != admintbl.adminID)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(admintbl);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!admintblExists(admintbl.adminID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(admintbl);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(admintbl);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!admintblExists(admintbl.adminID))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(admintbl);
+        //}
 
         // GET: admin/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var admintbl = await _context.admintbls
-                .FirstOrDefaultAsync(m => m.adminID == id);
-            if (admintbl == null)
+            var com = await _context.companies
+                .FirstOrDefaultAsync(m => m.CompanyID == id);
+            if (com == null)
             {
                 return NotFound();
             }
 
-            return View(admintbl);
+            return RedirectToAction("Delete", "Companies", new { id = id });
         }
 
         // POST: admin/Delete/5

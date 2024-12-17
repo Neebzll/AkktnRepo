@@ -22,16 +22,41 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string? id,string? name)
         {
-            ViewData["isAdmin"] = false; // Default to non-admin
-            var name = from c in _context.companies where c.CompanyID.Equals("Devp#5879") select c.CompanyName;
+            ViewData["isAdmin"] = false;
+            ViewData["ID"] = id;
+            var clients=_context.clients.Where(c=>c.CompanyID.Equals(id));
+            if (name == null)
+            {
+                var com = _context.companies.FirstOrDefault(c => c.CompanyID.Equals(id));
+                ViewData["Name"] = com.CompanyName;
+            }
+            else { ViewData["Name"] = name; }
+            //else
+            //{
+            //    name = "Devpulse";
+            //    var company = _context.companies.FirstOrDefault(com => com.CompanyName.Equals(name));
+            //    Console.WriteLine("Company " + company.CompanyName);
 
-            HttpContext.Session.SetString("Signed", name.First());
-            var clients = from c in _context.clients where companyID_signedin.Equals(c.CompanyID) select c;
-            return View(await clients.ToListAsync());
+            //    return View(new List<Company> { company });
+            //}
+            if (clients == null) 
+            {
+                return View(clients);
+            }
+            return View(clients);
         }
-        [HttpPost]
+            //public async Task<IActionResult> Index()
+            //{
+            //    ViewData["isAdmin"] = false; // Default to non-admin
+            //    var name = from c in _context.companies where c.CompanyID.Equals("Devp#5879") select c.CompanyName;
+
+            //    HttpContext.Session.SetString("Signed", name.First());
+            //    var clients = from c in _context.clients where companyID_signedin.Equals(c.CompanyID) select c;
+            //    return View(await clients.ToListAsync());
+            //}
+            [HttpPost]
         public async Task<IActionResult> Index(string pass, string ClientID, string CompanyID, string action)
         {
             // Validate admin password
@@ -93,8 +118,9 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients/Create
-        public IActionResult Create()
+        public IActionResult Create(string? id)
         {
+            ViewData["id"] = id;
             return View();
         }
 
@@ -102,16 +128,15 @@ namespace AKKTN_Pr00.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> Create([Bind("ClientID,CompanyID,ClientName,RegistrationNumber,CIPCRegistrationDate,IncomeTaxNumber,VAT,VATPeriod,PayeeNumber,PayeeReferenceNumber,EMP501,UIF,UIFNumber,WCC,WCCNumber,Payroll,MonthlyCashbook,FinancialStatements,IncomeTaxReturn")] Clients clients)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(clients);
+
+            _context.clients.Add(clients);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(clients);
+             
+            return RedirectToAction("Index", "Clients", new { id = clients.CompanyID });
+
         }
 
         // GET: Clients/Edit/5
@@ -123,6 +148,7 @@ namespace AKKTN_Pr00.Controllers
             }
 
             var clients = await _context.clients.FindAsync(id);
+            ViewData["id"] = clients.CompanyID;
             if (clients == null)
             {
                 return NotFound();
@@ -138,32 +164,18 @@ namespace AKKTN_Pr00.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("ClientID,CompanyID,ClientName,RegistrationNumber,CIPCRegistrationDate,IncomeTaxNumber,VAT,VATPeriod,PayeeNumber,PayeeReferenceNumber,EMP501,UIF,UIFNumber,WCC,WCCNumber,Payroll,MonthlyCashbook,FinancialStatements,IncomeTaxReturn")] Clients clients)
         {
             ViewBag.isAdmin = false;
-            if (id != clients.ClientID)
-            {
-                return NotFound();
-            }
+
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(clients);
+                
+                    _context.clients.Update(clients);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientsExists(clients.ClientID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                
+                
+               
             }
-            return View(clients);
+            return RedirectToAction("Index", "Clients", new { id = clients.CompanyID });
         }
 
         // GET: Clients/Delete/5
@@ -190,13 +202,14 @@ namespace AKKTN_Pr00.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var clients = await _context.clients.FindAsync(id);
+            var  comid=clients.CompanyID;
             if (clients != null)
             {
                 _context.clients.Remove(clients);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {id=comid});
         }
 
         private bool ClientsExists(int id)

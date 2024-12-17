@@ -10,96 +10,103 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form method="post" asp-controller="Clients" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CompanyID" class="control-label"></label>
-                <input asp-for="CompanyID" class="form-control" />
+                <input asp-for="CompanyID" readonly name="CompanyID" class="form-control" value="@ViewData["ID"]"/>
                 <span asp-validation-for="CompanyID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClientName" class="control-label"></label>
-                <input asp-for="ClientName" class="form-control" />
+                <input asp-for="ClientName" name="ClientName" class="form-control" />
                 <span asp-validation-for="ClientName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RegistrationNumber" class="control-label"></label>
-                <input asp-for="RegistrationNumber" class="form-control" />
+                <input asp-for="RegistrationNumber" name="RegistrationNumber" class="form-control" />
                 <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CIPCRegistrationDate" class="control-label"></label>
-                <input asp-for="CIPCRegistrationDate" class="form-control" />
+                <input asp-for="CIPCRegistrationDate" name="CIPCRegistrationDate" class="form-control" />
                 <span asp-validation-for="CIPCRegistrationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IncomeTaxNumber" class="control-label"></label>
-                <input asp-for="IncomeTaxNumber" class="form-control" />
+                <label asp-for="IncomeTaxNumber"  class="control-label"></label>
+                <input asp-for="IncomeTaxNumber" name="IncomeTaxNumber" class="form-control" />
                 <span asp-validation-for="IncomeTaxNumber" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="VAT" /> @Html.DisplayNameFor(model => model.VAT)
+                    <input class="form-check-input" id="VATCheckbox" name="VAT" asp-for="VAT" /> @Html.DisplayNameFor(model => model.VAT)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="VATPeriodContainer" style="display:none;">
                 <label asp-for="VATPeriod" class="control-label"></label>
-                <input asp-for="VATPeriod" class="form-control" />
+                <input asp-for="VATPeriod" name="VATPeriod" class="form-control" />
                 <span asp-validation-for="VATPeriod" class="text-danger"></span>
             </div>
+@*             <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" name="PayeeNumber" asp-for="PayeeNumber" /> @Html.DisplayNameFor(model => model.PayeeNumber)
+                </label>
+            </div> *@
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PayeeNumber" /> @Html.DisplayNameFor(model => model.PayeeNumber)
+                    <input class="form-check-input" id="PayeeNumberCheckbox" name="PayeeNumber" asp-for="PayeeNumber" /> @Html.DisplayNameFor(model => model.PayeeNumber)
                 </label>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" id="PayeeReferenceNumberContainer" style="display:none;">
                 <label asp-for="PayeeReferenceNumber" class="control-label"></label>
-                <input asp-for="PayeeReferenceNumber" class="form-control" />
+                <input asp-for="PayeeReferenceNumber"  name="PayeeReferenceNumber" class="form-control" />
                 <span asp-validation-for="PayeeReferenceNumber" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EMP501" /> @Html.DisplayNameFor(model => model.EMP501)
+                    <input class="form-check-input" name="EMP501" asp-for="EMP501" /> @Html.DisplayNameFor(model => model.EMP501)
                 </label>
             </div>
+  
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="UIF" /> @Html.DisplayNameFor(model => model.UIF)
+                    <input class="form-check-input" id="UIFCheckbox" name="UIF" asp-for="UIF" /> @Html.DisplayNameFor(model => model.UIF)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="UIFNumberContainer" style="display:none;">
                 <label asp-for="UIFNumber" class="control-label"></label>
-                <input asp-for="UIFNumber" class="form-control" />
+                <input asp-for="UIFNumber" name="UIFNumber" class="form-control" />
                 <span asp-validation-for="UIFNumber" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="WCC" /> @Html.DisplayNameFor(model => model.WCC)
+                    <input class="form-check-input" id="WCCCheckbox" name="WCC" asp-for="WCC" /> @Html.DisplayNameFor(model => model.WCC)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="WCCNumberContainer" style="display:none;">
                 <label asp-for="WCCNumber" class="control-label"></label>
-                <input asp-for="WCCNumber" class="form-control" />
+                <input asp-for="WCCNumber" name="WCCNumber" class="form-control" />
                 <span asp-validation-for="WCCNumber" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Payroll" /> @Html.DisplayNameFor(model => model.Payroll)
+                    <input class="form-check-input" name="Payroll" asp-for="Payroll" /> @Html.DisplayNameFor(model => model.Payroll)
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="MonthlyCashbook" /> @Html.DisplayNameFor(model => model.MonthlyCashbook)
+                    <input class="form-check-input" name="MonthlyCashbook" asp-for="MonthlyCashbook" /> @Html.DisplayNameFor(model => model.MonthlyCashbook)
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="FinancialStatements" /> @Html.DisplayNameFor(model => model.FinancialStatements)
+                    <input class="form-check-input" name="FinancialStatements" asp-for="FinancialStatements" /> @Html.DisplayNameFor(model => model.FinancialStatements)
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IncomeTaxReturn" /> @Html.DisplayNameFor(model => model.IncomeTaxReturn)
+                    <input class="form-check-input" name="IncomeTaxReturn" asp-for="IncomeTaxReturn" /> @Html.DisplayNameFor(model => model.IncomeTaxReturn)
                 </label>
             </div>
             <div class="form-group">
@@ -109,9 +116,41 @@
     </div>
 </div>
 
-<div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var payeeNumberCheckbox = document.getElementById("PayeeNumberCheckbox");
+        var payeeReferenceNumberContainer = document.getElementById("PayeeReferenceNumberContainer");
+        var vatCheckbox = document.getElementById("VATCheckbox");
+        var vatperiodContainer = document.getElementById("VATPeriodContainer");
+
+        var uifCheckbox = document.getElementById("UIFCheckbox");
+        var uifNumberContainer = document.getElementById("UIFNumberContainer");
+
+        var wccCheckbox = document.getElementById("WCCCheckbox");
+        var wccNumberContainer = document.getElementById("WCCNumberContainer");
+
+        // Function to toggle the visibility of the input fields based on checkbox state
+        function toggleVisibility() {
+            payeeReferenceNumberContainer.style.display = payeeNumberCheckbox.checked ? "block" : "none";
+            uifNumberContainer.style.display = uifCheckbox.checked ? "block" : "none";
+            wccNumberContainer.style.display = wccCheckbox.checked ? "block" : "none";
+            vatperiodContainer.style.display = vatCheckbox.checked ? "block" : "none";
+        }
+
+        // Call the function on page load to check the initial state
+        toggleVisibility();
+
+        // Add event listeners to checkboxes to toggle visibility
+        payeeNumberCheckbox.addEventListener("change", toggleVisibility);
+        uifCheckbox.addEventListener("change", toggleVisibility);
+        wccCheckbox.addEventListener("change", toggleVisibility);
+        vatCheckbox.addEventListener("change", toggleVisibility);
+    });
+</script>
+@* <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div> *@
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
