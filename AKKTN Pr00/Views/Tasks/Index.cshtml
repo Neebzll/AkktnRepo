@@ -1,10 +1,10 @@
-﻿@model IEnumerable<AKKTN_Pr00.Models.Tasks>
+﻿@model AKKTN_Pr00.Models.ViewTasks
 
 
 <h1>@ViewData["name"] Tasks</h1>
 <p>for @ViewData["client"]</p>
 <hr />
-<table class="table">
+@* <table class="table">
     <thead>
         <tr>
             <th>
@@ -57,4 +57,52 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@
+
+<ul class="d-flex flex-wrap list-unstyled">
+    @foreach (var task in Model.Tasks)
+    {
+        var uniqueId = "collapse-" + task.TaskID;
+        <li class="p-2">
+            <div>
+                <div class="card" style="width: fit-content;">
+                    <div class="card-header">
+                        @task.TaskStatus.ToUpper()
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Due: @task.DueDate?.ToString("yyyy-MM-dd")</h5>
+                        <p class="card-text">@task.TaskDescription</p>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#@uniqueId" aria-expanded="false" aria-controls="@uniqueId">
+                            Members Assigned
+                        </button>
+                        <div class="collapse" id="@uniqueId">
+                            <div class="card card-body">
+                                <h6>Assigned Members:</h6>
+                                @if (Model.TaskMembers[task.TaskID].Any())
+                                {
+                                    <ul>
+                                        @foreach (var member in Model.TaskMembers[task.TaskID])
+                                        {
+                                            <li>@member.ContactName - @member.Role</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p>No members assigned to this task.</p>
+                                }
+                            </div>
+                           </div>
+                        <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@task.TaskID">Details</a>
+                        <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@task.TaskID">Delete</a>
+
+                    </div>
+                  
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+
+

@@ -7,7 +7,7 @@
     .itemHide .nav-link.text-dark.signed {
     display: block;
     }
-  /*   .table{
+    /*   .table{
     margin-left:-15%;
     } */
     .btn .btn-outline-primary{
@@ -24,7 +24,7 @@
 <p>
     <a class="btn btn-outline-secondary" asp-action="Create" asp-controller="Companies">Create New Company</a>
 </p>
-<table class="table" style="align-content:flex-start" >
+<table class="table " style="align-content:flex-start" >
     <thead>
         <tr>
             <th>
@@ -64,7 +64,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    
+
                     <a asp-action="Details" asp-controller="admin" asp-route-name="@item.CompanyName" >@Html.DisplayFor(modelItem => item.CompanyName)</a>
                 </td>
                 <td>
@@ -83,36 +83,36 @@
                         }
                         @Html.DisplayFor(modelItem=>reg);
                     }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactName1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cell1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactName2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cell2)
-            </td>
-            <td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cell1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cell2)
+                </td>
+                <td>
                     <ul style="list-style:none;text-decoration:none;" class="d-flex flex-row">
-@*                         <li><a class="btn btn-outline-primary  " asp-action="Details" asp-route-id="@item.CompanyID">Details</a> </li>
+                        @*                         <li><a class="btn btn-outline-primary  " asp-action="Details" asp-route-id="@item.CompanyID">Details</a> </li>
  *@                        <li> <a class="btn btn-outline-info  "  asp-action="Edit" asp-route-id="@item.CompanyID">Edit</a> </li>
                         <li><a class="btn btn-outline-danger  " style="margin-left:10px" asp-action="Delete" asp-route-id="@item.CompanyID">Delete</a></li>
                     </ul>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
