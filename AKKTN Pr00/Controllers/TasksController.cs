@@ -40,44 +40,84 @@ namespace AKKTN_Pr00.Controllers
         //    }
         //    return View(await tasks.ToListAsync());
         //}        
-        public async Task<IActionResult> Index(int? ClientID,string? id,string? name,ViewTasks? view)
+        public async Task<IActionResult> Index(int? ClientID, string? id, string? name)
         {
-            var tasks = _context.tasks.ToList();
+            // Fetch tasks based on the provided CompanyID
+            var tasks = await _context.tasks
+                .Where(t => t.CompanyID == id)
+                .ToListAsync();
 
-            // Create a dictionary to map TaskID to members
+            // Fetch members for each task filtered by CompanyID
             var taskMembers = tasks.ToDictionary(
                 task => task.TaskID,
                 task => _context.assignedTasks
-                                .Where(at => at.TaskID == task.TaskID)
-                                .Join(_context.companiesTeam,
-                                      at => at.memberID,
-                                      member => member.memberID,
-                                      (at, member) => member) // Join assignedTasks with CompanyTeam
-                                .ToList()
+                    .Where(at => at.TaskID == task.TaskID)
+                    .Join(_context.companiesTeam,
+                          at => at.memberID,
+                          member => member.memberID,
+                          (at, member) => member)
+                    .Where(member => member.CompanyID == id) // Ensure the member is linked to the CompanyID
+                    .ToList()
             );
 
-            // Populate the ViewModel
+            // Populate ViewModel
             var viewModel = new ViewTasks
             {
                 Tasks = tasks,
-                TaskMembers = taskMembers
-            };
-
-            // Pass the ViewModel to the view
-           
+                TaskMembers = taskMembers,
+               };
             ViewData["ID"] = id;
-            ViewData["Name"]=_context.companies.FirstOrDefault(c=>c.CompanyID==id).CompanyName;
+            ViewData["Name"] = _context.companies.FirstOrDefault(c => c.CompanyID == id).CompanyName;
             if (name != null)
             {
-                ViewData["client"]=name;
+                ViewData["client"] = name;
             }
             else
             {
                 ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
 
             }
+
             return View(viewModel);
         }
+        //public async Task<IActionResult> Index(int? ClientID,string? id,string? name,ViewTasks? view)
+        //{
+        //    var tasks = _context.tasks.ToList();
+
+        //    // Create a dictionary to map TaskID to members
+        //    var taskMembers = tasks.ToDictionary(
+        //        task => task.TaskID,
+        //        task => _context.assignedTasks
+        //                        .Where(at => at.TaskID == task.TaskID)
+        //                        .Join(_context.companiesTeam,
+        //                              at => at.memberID,
+        //                              member => member.memberID,
+        //                              (at, member) => member) // Join assignedTasks with CompanyTeam
+        //                        .ToList()
+        //    );
+
+        //    // Populate the ViewModel
+        //    var viewModel = new ViewTasks
+        //    {
+        //        Tasks = tasks,
+        //        TaskMembers = taskMembers
+        //    };
+
+        //    // Pass the ViewModel to the view
+
+        //    ViewData["ID"] = id;
+        //    ViewData["Name"]=_context.companies.FirstOrDefault(c=>c.CompanyID==id).CompanyName;
+        //    if (name != null)
+        //    {
+        //        ViewData["client"]=name;
+        //    }
+        //    else
+        //    {
+        //        ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
+
+        //    }
+        //    return View(viewModel);
+        //}
 
         // GET: Tasks/Details/5
         public async Task<IActionResult> Details(int? id)
