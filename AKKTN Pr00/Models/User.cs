@@ -2,7 +2,7 @@
 
 namespace Login_and_Registration.Models
 {
-    public class User : IdentityUser
+    public class user : IdentityUser
     {
         public string FullName { get; set; }
     }

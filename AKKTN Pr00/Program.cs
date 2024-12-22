@@ -1,6 +1,7 @@
-using AKKTN_Pr00.Data;
-using AKKTN_Pr00.Data;
+using Login_and_Registration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Login_and_Registration.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,16 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+builder.Services.AddIdentity<user, IdentityRole>()
+    .AddEntityFrameworkStores<AppDBContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
     options.Password.RequiredLength = 10;
     options.Password.RequireUppercase = false;
     options.User.RequireUniqueEmail = true;

@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Login_and_Registration.Data;
 
 #nullable disable
 
-namespace AKKTN_Pr00.Migrations
+namespace Login_and_Registration.Migrations
 {
     /// <inheritdoc />
     public partial class project00Migrate : Migration

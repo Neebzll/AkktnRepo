@@ -1,17 +1,18 @@
-﻿using Google.Apis.Admin.Directory.directory_v1.Data;
+﻿
 using Login_and_Registration.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Login_and_Registration.Models;
 
 namespace Login_and_Registration.Controllers
 {
 
     public class AccountController : Controller
     {
-        private readonly SignInManager<Users>? signInManager;
-        private readonly UserManager<Users>? userManager;
+        private readonly SignInManager<user>? signInManager;
+        private readonly UserManager<user>? userManager;
 
-        public AccountController(SignInManager<Users>? signInManager, UserManager<Users>? userManager)
+        public AccountController(SignInManager<user>? signInManager, UserManager<user>? userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -26,7 +27,7 @@ namespace Login_and_Registration.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email1, model.companypass, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
@@ -50,14 +51,15 @@ namespace Login_and_Registration.Controllers
         {
             if (ModelState.IsValid)
             {
-                Users users = new Users
+                 user user = new user 
                 {
-                    FullName​ = model.CompanyName​,
-                    Email = model.Email,
-                    UserName = model.Email,
+                
+                    FullName = model.CompanyName
+
+
                 };
 
-                var result = await userManager.CreateAsync(users, model.Password);
+                var result = await userManager.CreateAsync(user , model.companypass);
 
                 if (result.Succeeded)
                 {
