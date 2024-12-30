@@ -3,7 +3,10 @@
     .nav-link {
     display: none;
     }
-
+      .table-responsive {
+     
+        margin-left: -15px; /* Adjust the value to move the table further left */
+    }
     .itemHide .nav-link.text-dark.signed {
     display: block;
     }
@@ -24,7 +27,8 @@
 <p>
     <a class="btn btn-outline-secondary" asp-action="Create" asp-controller="Companies">Create New Company</a>
 </p>
-<table class="table " style="align-content:flex-start" >
+<div>
+<table class="table table-responsive" style="align-content:flex-start" >
     <thead>
         <tr>
             <th>

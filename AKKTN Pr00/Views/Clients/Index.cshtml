@@ -2,6 +2,13 @@
 @{
     var isAdmin = ViewData["isAdmin"] as bool? ?? false;
 }
+<style>
+      .movetable {
+      
+        margin-left: -88px; /* Adjust the value to move the table further left */
+    }
+</style>
+<div class="movetable">
 <h1 >@ViewData["Name"] Clients</h1>
 <hr/>
 <!-- Admin Password Form (Initially hidden) -->
@@ -27,7 +34,7 @@
     }else{
 
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
                     <th scope="col">@Html.DisplayNameFor(model => model.ClientName)</th>
@@ -95,7 +102,7 @@
     }
 }
 
-
+</div>
 
 <script>
 
