@@ -7,97 +7,75 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace AKKTN_Pr00.Controllers
 {
     public class ClientsController : Controller
     {
         private readonly AppDBContext _context;
-        private readonly string AdminPassword = "1234";
+        
+        public  string AdminPassword = "1234";
+        public  string ID = "";
+        public string name = "";
         //private readonly string companyID_signedin = "Devp#5879";
 
         public ClientsController(AppDBContext context)
         {
             _context = context;
-        }
 
+        }
+      
         // GET: Clients
         public IActionResult Index(string? id,string? name)
         {
+            //var email = HttpContext.Session.GetString("Signed").ToString();
+            //var passw = from c in _context.admintbls where c.email == email select c.adminpass.ToString();
+            //AdminPassword = passw.ToString();
+            
+
             ViewData["isAdmin"] = false;
             ViewData["ID"] = id;
+            this.ID = id;
             var clients=_context.clients.Where(c=>c.CompanyID.Equals(id));
             if (name == null)
             {
                 var com = _context.companies.FirstOrDefault(c => c.CompanyID.Equals(id));
                 ViewData["Name"] = com.CompanyName;
+                this.name= com.CompanyName;
             }
-            else { ViewData["Name"] = name; }
-            //else
-            //{
-            //    name = "Devpulse";
-            //    var company = _context.companies.FirstOrDefault(com => com.CompanyName.Equals(name));
-            //    Console.WriteLine("Company " + company.CompanyName);
-
-            //    return View(new List<Company> { company });
-            //}
+            else { ViewData["Name"] = name;
+                this.name = name;
+            }
+            
             if (clients == null) 
             {
                 return View(clients);
             }
             return View(clients);
         }
-            //public async Task<IActionResult> Index()
-            //{
-            //    ViewData["isAdmin"] = false; // Default to non-admin
-            //    var name = from c in _context.companies where c.CompanyID.Equals("Devp#5879") select c.CompanyName;
 
-            //    HttpContext.Session.SetString("Signed", name.First());
-            //    var clients = from c in _context.clients where companyID_signedin.Equals(c.CompanyID) select c;
-            //    return View(await clients.ToListAsync());
-            //}
-            [HttpPost]
-        public async Task<IActionResult> Index(string pass, string ClientID, string CompanyID, string action)
+        [HttpPost]
+        public IActionResult Index(string ClientID, string CompanyID, string action)
         {
-            // Validate admin password
-            if (pass == AdminPassword)
-            {
-                
-           
             var clientid = ClientID;
 
-            // Set ViewData to enable sensitive info display
-            //ViewData["isAdmin"] = true;
-
-            // Optionally: Fetch specific client data based on ClientID or CompanyID
-            //var client = await _context.clients
-            //    .FirstOrDefaultAsync(c => c.ClientID.Equals( clientid) && c.CompanyID == CompanyID);
-
-            //if (client == null)
-            //{
-            //    TempData["ErrorMessage"] = "Client not found.";
-            //    return RedirectToAction(nameof(Index));
-            //}
-
-            //TempData["SuccessMessage"] = "Admin privileges granted. Sensitive data is now visible.";
-            if (action.Equals("Details"))
+            if (action.Equals("Details", StringComparison.OrdinalIgnoreCase))
             {
                 return RedirectToAction(nameof(Details), new { id = clientid });
-            }           
-            if (action.Equals("Edit"))
+            }
+            if (action.Equals("Edit", StringComparison.OrdinalIgnoreCase))
             {
                 return RedirectToAction(nameof(Edit), new { id = clientid });
-            }           
-            if (action.Equals("Delete"))
+            }
+            if (action.Equals("Delete", StringComparison.OrdinalIgnoreCase))
             {
                 return RedirectToAction(nameof(Delete), new { id = clientid });
             }
-            }
 
-            return View(await _context.clients.ToListAsync());
-            
-            
+            return RedirectToAction("Index", new { id = CompanyID });
         }
+
 
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)

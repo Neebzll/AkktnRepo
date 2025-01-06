@@ -41,12 +41,32 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Clients</a>
                         </li>
                 </div>
-              
-                        <li class="nav-item ms-auto">
-                    <div class="itemHide">
-                            <a class="nav-link text-dark signed"  style="float:right">@signedin</a>
-                    </div>
+              @{if(signedin.Equals("not signed-in")){
+                        <li class="nav-item ms-auto ">
+                            <a class="nav-link  text-dark signed" asp-controller="admin" asp-action="Index" >
+                                        @signedin
+                            </a>
+                            
                         </li>
+
+              }else{
+                        <li class="nav-item ms-auto dropdown">
+                            <a class="nav-link dropdown-toggle text-dark signed" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @signedin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <form asp-controller="admin" asp-action="Logout" method="post" class="d-inline">
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+              }
+
+}
+       
+
              
                     </ul>
                 </div>

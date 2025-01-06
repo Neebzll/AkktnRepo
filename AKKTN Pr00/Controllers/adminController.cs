@@ -69,7 +69,12 @@ namespace AKKTN_Pr00.Controllers
 
 
         // GET: admin/Details/5
-
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // Clear all session data
+            return RedirectToAction("Index", "admin");
+        }
         public async Task<IActionResult> Details(string? name)
         {
             if (name == null)

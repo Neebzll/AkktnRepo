@@ -52,58 +52,58 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a href="#" style="margin-left:10px" id="Details" class="adminButton"
-                               data-clientid="@item.ClientID"
-                               data-companyid="@item.CompanyID"
-                               data-action="Details">@item.ClientName</a>
-                        </td>
-                        <td>                                                 
-                            @{                                               
-                                if (isAdmin)
-                                {
-                                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", new { id = item.ClientID })" >
+                                    @item.ClientName
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    if (isAdmin)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                                    }
+                                    else
+                                    {
+                                        <span>##########</span>
+                                    }
                                 }
-                                else
-                                {
-                                    <span>##########</span>
-                                }
-                            }
-                        </td>
-                        <td>@Html.DisplayFor(modelItem => item.VAT)</td>
-                        <td>@Html.DisplayFor(modelItem => item.VATPeriod)</td>
-                        <td>@(item.PayeeNumber ? "Yes" : "No")</td>
-                        <td>@(item.EMP501 ? "Yes" : "No")</td>
-                        <td>@(item.UIF ? "Yes" : "No")</td>
-                        <td>@(item.WCC ? "Yes" : "No")</td>
-                        <td>@(item.Payroll ? "Yes" : "No")</td>
-                        <td>@(item.MonthlyCashbook ? "Yes" : "No")</td>
-                        <td>@(item.FinancialStatements ? "Yes" : "No")</td>
-                        <td>@(item.IncomeTaxReturn ? "Yes" : "No")</td>
-                        <td class="d-flex flex-row">
-                            <a href="#" id="Edit" style="margin-left:10px" class="adminButton btn btn-outline-info"
-                               data-clientid="@item.ClientID"
-                               data-companyid="@item.CompanyID"
-                               data-action="Edit">Edit</a> 
-                            <a href="#" style="margin-left:10px" id="Delete" class="adminButton btn btn-outline-danger"
-                               data-clientid="@item.ClientID"
-                               data-companyid="@item.CompanyID"
-                               data-action="Delete">Delete</a>
-                            <a style="margin-left:10px" asp-action="Index" asp-controller="Tasks" asp-route-clientid="@item.ClientID" asp-route-id="@item.CompanyID" class="btn btn-outline-warning">Tasks</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.VAT)</td>
+                            <td>@Html.DisplayFor(modelItem => item.VATPeriod)</td>
+                            <td>@(item.PayeeNumber ? "Yes" : "No")</td>
+                            <td>@(item.EMP501 ? "Yes" : "No")</td>
+                            <td>@(item.UIF ? "Yes" : "No")</td>
+                            <td>@(item.WCC ? "Yes" : "No")</td>
+                            <td>@(item.Payroll ? "Yes" : "No")</td>
+                            <td>@(item.MonthlyCashbook ? "Yes" : "No")</td>
+                            <td>@(item.FinancialStatements ? "Yes" : "No")</td>
+                            <td>@(item.IncomeTaxReturn ? "Yes" : "No")</td>
+                            <td class="d-flex flex-row">
+                                <a href="@Url.Action("Edit", new { id = item.ClientID })" class="btn btn-outline-info" style="margin-left:10px">
+                                    Edit
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.ClientID })" class="btn btn-outline-danger" style="margin-left:10px">
+                                    Delete
+                                </a>
+                                <a href="@Url.Action("Index", "Tasks", new { clientid = item.ClientID, id = item.CompanyID })" class="btn btn-outline-warning" style="margin-left:10px">
+                                    Tasks
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
         </table>
     }
 }
 
 </div>
-
+@* 
 <script>
 
        document.querySelectorAll('.adminButton').forEach(button => {
@@ -135,3 +135,4 @@
     });
 
 </script>
+ *@
