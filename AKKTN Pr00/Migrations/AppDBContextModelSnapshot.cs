@@ -64,7 +64,7 @@ namespace Login_and_Registration.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PayeeReferenceNumber")
-                        .IsRequired()
+                       
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -80,7 +80,7 @@ namespace Login_and_Registration.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UIFNumber")
-                        .IsRequired()
+                        
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
 
@@ -88,14 +88,14 @@ namespace Login_and_Registration.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("VATPeriod")
-                        .IsRequired()
+                       
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("WCC")
                         .HasColumnType("bit");
 
                     b.Property<string>("WCCNumber")
-                        .IsRequired()
+                        
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
