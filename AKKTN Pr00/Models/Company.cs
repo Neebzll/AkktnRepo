@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Login_and_Registration.Models
+namespace AKKTN_Pr00.Models
 {
     public class Company
     {

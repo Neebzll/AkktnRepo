@@ -1,7 +1,8 @@
-using Login_and_Registration;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Login_and_Registration.Models;
+using AKKTN_Pr00.Models;
+using AKKTN_Pr00.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Connection1")));
+
 
 builder.Services.AddIdentity<user, IdentityRole>()
     .AddEntityFrameworkStores<AppDBContext>()
@@ -27,7 +29,13 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout duration (can be customized)
+    options.Cookie.HttpOnly = true; // Make the session cookie HttpOnly
+    options.Cookie.IsEssential = true; // Mark session cookie as essential
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,7 +45,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -47,6 +55,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

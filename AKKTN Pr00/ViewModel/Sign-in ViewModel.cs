@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Login_and_Registration.ViewModel
+namespace AKKTN_Pr00.ViewModel
 {
     public class Sign_in_ViewModel
     {

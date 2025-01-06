@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Login_and_Registration.Models
+namespace AKKTN_Pr00.Models
 {
     public class user : IdentityUser
     {

@@ -1,25 +1,30 @@
 ﻿
-using Login_and_Registration.ViewModel;
+using AKKTN_Pr00.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Login_and_Registration.Models;
+using AKKTN_Pr00.Models;
+using DocumentFormat.OpenXml.InkML;
+using AKKTN_Pr00.Data;
 
-namespace Login_and_Registration.Controllers
+namespace AKKTN_Pr00.Controllers
 {
 
     public class AccountController : Controller
     {
         private readonly SignInManager<user>? signInManager;
         private readonly UserManager<user>? userManager;
+        private readonly AppDBContext _context;
 
-        public AccountController(SignInManager<user>? signInManager, UserManager<user>? userManager)
+        public AccountController(SignInManager<user>? signInManager, UserManager<user>? userManager,AppDBContext context)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            _context = context;
         }
 
         public IActionResult Login()
         {
+          
             return View();
         }
         [HttpPost]

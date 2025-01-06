@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Login_and_Registration.ViewModel
+namespace AKKTN_Pr00.ViewModel
 {
     public class Sign_UpViewModel
     {

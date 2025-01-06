@@ -1,7 +1,7 @@
-﻿using Login_and_Registration.Models;
+﻿using AKKTN_Pr00.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Login_and_Registration.Data;
+namespace AKKTN_Pr00.Data;
 
 public class AppDBContext: DbContext
 {
