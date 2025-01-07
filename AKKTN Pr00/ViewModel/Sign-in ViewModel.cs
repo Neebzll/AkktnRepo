@@ -13,8 +13,8 @@ namespace AKKTN_Pr00.ViewModel
         [DataType(DataType.Password)]
         public string companypass { get; set; }
 
-        [Display(Name = "Remember Me?")]
-        public bool RememberMe { get; set; }
+        //[Display(Name = "Remember Me?")]
+        //public bool RememberMe { get; set; }
 
 
     }
