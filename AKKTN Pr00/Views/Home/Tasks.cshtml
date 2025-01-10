@@ -1,0 +1,59 @@
+﻿
+<div class="container mt-4">
+    <h2>Tasks</h2>
+    <button class="btn btn-primary mb-3" id="GetTask">+ Add Task</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Task ID</th>
+                <th>Description</th>
+                <th>Assigned Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Reminders</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* Example rows can be dynamically populated here *@
+        </tbody>
+    <!-- Placeholder for the form modal -->
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">+ Add Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Open the Add Task
+            $("#openTaskForm").click(function () {
+                $.ajax({
+                    url: '@Url.Action("GetTaskForm", "Home")',
+                    method: 'GET',
+                    success: function (data) {
+                        $("#taskFormContainer").html(data); // Load form content into the modal
+                        $("#taskModal").modal("show"); // Show the modal
+                    },
+                    error: function () {
+                        alert("Failed to load the form. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,5 +1,6 @@
 using AKKTN_Pr00.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AKKTN_Pr00.Controllers
@@ -13,20 +14,28 @@ namespace AKKTN_Pr00.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Tasks()
         {
+
+            return View();
+        }
+        public IActionResult Clients()
+        {
+
+            return View();
+        }
+        public IActionResult Teams()
+        {
+
             return View();
         }
 
-        public IActionResult Privacy()
+        // Submit the "Add Task" form
+        [HttpPost]
+        public IActionResult GetTask()
         {
-            return View();
+            return PartialView("AddTask", new Tasks());
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
