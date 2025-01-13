@@ -1,4 +1,4 @@
-namespace AKKTN_Pr00.Models
+namespace Login_and_Registration.Models
 {
     public class ErrorViewModel
     {

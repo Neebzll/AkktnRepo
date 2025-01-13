@@ -1,13 +1,16 @@
-using AKKTN_Pr00.Models;
+using Login_and_Registration.Models;
+using Login_and_Registration.ViewModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace AKKTN_Pr00.Controllers
+namespace Login_and_Registration.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+<<<<<<< HEAD
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -15,7 +18,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         public IActionResult Tasks()
-        {
+        { 
 
             return View();
         }
