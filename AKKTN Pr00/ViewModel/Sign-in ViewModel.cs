@@ -6,12 +6,12 @@ namespace AKKTN_Pr00.ViewModel
 {
     public class Sign_in_ViewModel
     {
-        [Required(ErrorMessage = "Email1 is required")]
+        [Required(ErrorMessage = "EmailAddress 1 is required")]
    
-        public string Email1 { get; set; }
-        [Required(ErrorMessage = "companypass is required")]
+        public string Email Address 1 { get; set; }
+        [Required(ErrorMessage = "company password is required")]
         [DataType(DataType.Password)]
-        public string companypass { get; set; }
+        public string company password { get; set; }
 
         [Display(Name = "Remember Me?")]
         public bool RememberMe { get; set; }

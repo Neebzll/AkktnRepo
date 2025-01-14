@@ -32,7 +32,7 @@ namespace AKKTN_Pr00.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email1, model.companypass, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email Address 1, model.company password, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
@@ -60,14 +60,17 @@ namespace AKKTN_Pr00.Controllers
                 {
                 
                     FullName = model.CompanyName
+                    UserName = model.Email Address 1,
+                    Email = model.Email Address 1
 
 
-                };
+                 };
 
-                var result = await userManager.CreateAsync(user , model.companypass);
+                var result = await userManager.CreateAsync(user , model.company password);
 
                 if (result.Succeeded)
                 {
+                    await signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }
                 else

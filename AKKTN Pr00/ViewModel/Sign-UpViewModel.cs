@@ -8,31 +8,41 @@ namespace AKKTN_Pr00.ViewModel
     {
         [Required(ErrorMessage = "CompanyName is required")]
         public string CompanyName { get; set; }
-        [Required(ErrorMessage = "companypass is required")]
+
+        [Required(ErrorMessage = "company password is required")]
         [StringLength(40, MinimumLength = 8, ErrorMessage = "The {0} must be at {2} and at max {1} characters long.")]
+        [Compare("Confirm company password", ErrorMessage = "company password does not match.")]
         [DataType(DataType.Password)]
-        public string companypass { get; set; }
+        public string Company password { get; set; }
+
+        [Required(ErrorMessage = "confirm company password is required")]
+        public string Confirm company password { get; set; }
+
         [Required(ErrorMessage = "Registration number is required")]
-        
         public string RegistrationNumber { get; set; }
-        [Required(ErrorMessage = "Status is required")]
+
+       [Required(ErrorMessage = "Status is required")]
         public string status { get; set; }
+
         [Required(ErrorMessage = "ContactName1 is required")]
         [Compare("ContactName2", ErrorMessage = "ContactName does not match.")]
         public string ContactName1​ { get; set; }
-        [Required(ErrorMessage = "Email1 is required")]
-        [Compare("Email2", ErrorMessage = "Email does not match.")]
-        public string Email1​ { get; set; }
-        [Required(ErrorMessage = "Cell1 is required")]
-        [Compare("Cell2", ErrorMessage = "Cell does not match.")]
-        public string Cell1 { get; set; }
-        [Required(ErrorMessage = "ContactName2 is required")]
-        public string ContactName2 { get; set; }
 
-        [Required(ErrorMessage = "Email2 is required")]
-        public string Email2 { get; set; }
-        [Required(ErrorMessage = "Cell2 is required")]
-        public string Cell2 { get; set; }
+        [Required(ErrorMessage = "Email address 1 is required")]
+        [Compare("Email Adress 2", ErrorMessage = "Email adress does not match.")]
+        public string Email Adress1​ { get; set; }
+
+        [Required(ErrorMessage = "Cellphone1 is required")]
+        [Compare("Cellphone 2", ErrorMessage = "Cellphone does not match.")]
+        public string Cellphone 1 { get; set; }
+
+        [Required(ErrorMessage = "ContactName 2 is required")]
+        public string ContactName 2 { get; set; }
+
+        [Required(ErrorMessage = "Email Address 2 is required")]
+        public string Email Address2 { get; set; }
+        [Required(ErrorMessage = "Cellphone2 is required")]
+        public string Cellphone2 { get; set; }
 
         public string CompanyId { get; private set; }
 

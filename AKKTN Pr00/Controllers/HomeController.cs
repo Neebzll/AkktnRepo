@@ -7,6 +7,7 @@ using System.Data;
 
 namespace AKKTN_Pr00.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private AppDBContext _db;
