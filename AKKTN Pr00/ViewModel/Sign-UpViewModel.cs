@@ -25,15 +25,12 @@ namespace AKKTN_Pr00.ViewModel
         public string status { get; set; }
 
         [Required(ErrorMessage = "ContactName1 is required")]
-        [Compare("ContactName2", ErrorMessage = "ContactName does not match.")]
         public string ContactName1​ { get; set; }
 
         [Required(ErrorMessage = "Email address 1 is required")]
-        [Compare("Email Adress 2", ErrorMessage = "Email adress does not match.")]
         public string EmailAddress1​ { get; set; }
 
         [Required(ErrorMessage = "Cellphone1 is required")]
-        [Compare("Cellphone 2", ErrorMessage = "Cellphone does not match.")]
         public string Cellphone1 { get; set; }
 
         [Required(ErrorMessage = "ContactName 2 is required")]

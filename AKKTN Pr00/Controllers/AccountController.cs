@@ -30,7 +30,7 @@ namespace AKKTN_Pr00.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(Sign_in_ViewModel model)
+        public IActionResult Login(Sign_in_ViewModel model)
         {
             if (ModelState.IsValid)
             {

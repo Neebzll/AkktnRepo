@@ -39,6 +39,47 @@
                 <input asp-for="RegistrationNumber" class="form-control" />
                 <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <label asp-for="status " class="form-label"></label>
+                <input asp-for="status " class="form-control" />
+                <span asp-validation-for="status " class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ContactName1​" class="form-label"></label>
+                <input asp-for="ContactName1​" class="form-control" />
+                <span asp-validation-for="ContactName1​" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EmailAddress1" class="form-label"></label>
+                <input asp-for="EmailAddress1" class="form-control" />
+                <span asp-validation-for="EmailAddress1" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Cellphone1" class="form-label"></label>
+                <input asp-for="Cellphone1" class="form-control" />
+                <span asp-validation-for="Cellphone1" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ContactName2" class="form-label"></label>
+                <input asp-for="ContactName2" class="form-control" />
+                <span asp-validation-for="ContactName2​" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EmailAddress2" class="form-label"></label>
+                <input asp-for="EmailAddress2" class="form-control" />
+                <span asp-validation-for="EmailAddress2" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Cellphone2" class="form-label"></label>
+                <input asp-for="Cellphone2" class="form-control" />
+                <span asp-validation-for="Cellphone2" class="text-danger"></span>
+            </div>
             @Html.HiddenFor(model => model.status, new { @Value = "pending" })
             <!-- Other fields remain the same -->
             <input type="submit" value="Register" class="btn btn-success w-100 p-2" />
