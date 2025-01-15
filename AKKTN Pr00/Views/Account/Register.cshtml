@@ -1,11 +1,18 @@
-﻿@using AKKTN_Pr00.ViewModel
-@model Sign_UpViewModel
+﻿@model AKKTN_Pr00.ViewModel.Sign_UpViewModel
 
 @{
     ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    // Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
+<style>
+    .nav-link {
+        display: none;
+    }
 
+    .itemHide .nav-link.text-dark.signed {
+        display: none;
+    }
+</style>
 <div class="account-container">
     <div class="account-box">
         <h2 class="text-center mb-4">Register</h2>
@@ -17,64 +24,23 @@
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for=" companypassword​" class="form-label"></label>
-                <input asp-for=" companypassword​" class="form-control" />
-                <span asp-validation-for=" companypassword" class="text-danger"></span>
+                <label asp-for="companypassword" class="form-label"></label>
+                <input type="password" asp-for="companypassword" class="form-control" />
+                <span asp-validation-for="companypassword" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for=" confirmcompanypass​word" class="form-label"></label>
-                <input asp-for=" confirmcompanypassword​" class="form-control" />
-                <span asp-validation-for=" confirmcompanypassword" class="text-danger"></span>
+                <label asp-for="confirmcompanypassword" class="form-label"></label>
+                <input type="password" asp-for="confirmcompanypassword" class="form-control" />
+                <span asp-validation-for="confirmcompanypassword" class="text-danger"></span>
             </div>
+
             <div class="mb-3">
                 <label asp-for="RegistrationNumber" class="form-label"></label>
                 <input asp-for="RegistrationNumber" class="form-control" />
                 <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="status " class="form-label"></label>
-                <input asp-for="status " class="form-control" />
-                <span asp-validation-for="status " class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="ContactName1​" class="form-label"></label>
-                <input asp-for="ContactName1​" class="form-control" />
-                <span asp-validation-for="ContactName1​" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="EmailAddress1" class="form-label"></label>
-                <input asp-for="EmailAddress1" class="form-control" />
-                <span asp-validation-for="EmailAddress1" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Cellphone1" class="form-label"></label>
-                <input asp-for="Cellphone1" class="form-control" />
-                <span asp-validation-for="Cellphone1​" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="ContactName2" class="form-label"></label>
-                <input asp-for="ContactName2" class="form-control" />
-                <span asp-validation-for="ContactName2​" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="EmailAddress2" class="form-label"></label>
-                <input asp-for="EmailAddress2" class="form-control" />
-                <span asp-validation-for="EmailAddress2​" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Cellphone2" class="form-label"></label>
-                <input asp-for="Cellphone2" class="form-control" />
-                <span asp-validation-for="Cell[phone2" class="text-danger"></span>
-            </div>
-
-
-
+            @Html.HiddenFor(model => model.status, new { @Value = "pending" })
+            <!-- Other fields remain the same -->
             <input type="submit" value="Register" class="btn btn-success w-100 p-2" />
             <p class="text-center mt-2">
                 Already have an account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
@@ -83,6 +49,12 @@
                 <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
             </div>
         </form>
+
+
+
+
+
+      
     </div>
 </div>
 

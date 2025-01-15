@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using AKKTN_Pr00.Models;
 using DocumentFormat.OpenXml.InkML;
 using AKKTN_Pr00.Data;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -33,12 +35,14 @@ namespace AKKTN_Pr00.Controllers
             if (ModelState.IsValid)
             {
                 var findemail = _context.companies
-                   .FirstOrDefault(ad => ad.EmailAddress1.Equals(companyemail) && ad.companypassword.Equals(companypassword));
+                    .FirstOrDefault(ad =>
+                        (ad.Email1.Equals(model.EmailAddress1) || ad.Email2.Equals(model.EmailAddress1))
+                        && ad.companypass.Equals(model.companypassword));
 
-                //var result = await signInManager.PasswordSignInAsync(model.EmailAddress1, model.companypassword, model.RememberMe, false);
-
-                if (result.Succeeded)
+                if (findemail != null)
                 {
+                    HttpContext.Session.SetString("isAdmin", "false");
+                    HttpContext.Session.SetString("Signed", model.EmailAddress1);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -48,8 +52,28 @@ namespace AKKTN_Pr00.Controllers
                 }
             }
             return View(model);
-        }
 
+        }
+        private static string GenerateCompanyId(string CompanyName, string cellphone1)
+        {
+            // Combine the company name and cell
+            string combined = $"{CompanyName.Trim().ToLower()}-{cellphone1.Trim()}";
+
+            // Generate a hash of the combined string
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(combined));
+                // Convert the byte array to a hexadecimal string
+                StringBuilder hashString = new StringBuilder();
+                foreach (byte b in hashBytes)
+                {
+                    hashString.Append(b.ToString("x2"));
+                }
+
+                // Return the first 10 characters of the hash as the Company ID
+                return hashString.ToString().Substring(0, 10).ToUpper();
+            }
+        }
         public IActionResult Register()
         {
             return View();
@@ -59,36 +83,31 @@ namespace AKKTN_Pr00.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Sign_UpViewModel);
+                string ID = "";
+                if (!string.IsNullOrWhiteSpace(model.CompanyName) && !string.IsNullOrWhiteSpace(model.Cellphone1))
+                {
+                    ID = GenerateCompanyId(model.CompanyName, model.Cellphone1);
+                }
+                _context.Add(model);
                 await _context.SaveChangesAsync();
 
 
-                user user = new user 
-                {
+                //user user = new user 
+                //{
                 
-                    FullName = model.CompanyName,
-                    UserName = model.EmailAddress1,
-                    Email = model.EmailAddress1
+                //    FullName = model.CompanyName,
+                //    UserName = model.EmailAddress1,
+                //    Email = model.EmailAddress1
 
 
-                 };
+                // };
 
-                var result = await userManager.CreateAsync(user , model.companypassword);
+                //var result = await userManager.CreateAsync(user , model.companypassword);
 
-                if (result.Succeeded)
-                {
-                    await signInManager.SignInAsync(newUser, isPersistent: false);
+               //await signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    return View(model);
-                }
+                
+            
             }
             return View(model);
         }
@@ -158,10 +177,10 @@ namespace AKKTN_Pr00.Controllers
                 return View(model);
             }
         }
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.Clear(); // Clear all session data
+            return RedirectToAction("Login", "Account");
         }
 
     }

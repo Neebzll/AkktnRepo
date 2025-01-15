@@ -11,7 +11,7 @@ namespace AKKTN_Pr00.ViewModel
 
         [Required(ErrorMessage = "companypassword is required")]
         [StringLength(40, MinimumLength = 8, ErrorMessage = "The {0} must be at {2} and at max {1} characters long.")]
-        [Compare("Confirm company password", ErrorMessage = "company password does not match.")]
+        [Compare("confirmcompanypassword", ErrorMessage = "company password does not match.")]
         [DataType(DataType.Password)]
         public string companypassword { get; set; }
 
@@ -44,37 +44,18 @@ namespace AKKTN_Pr00.ViewModel
         [Required(ErrorMessage = "Cellphone2 is required")]
         public string Cellphone2 { get; set; }
 
-        public string CompanyId { get; private set; }
+        //public string CompanyId { get; private set; }
 
-        public void GenerateCompanyId()
-        {
-            if (!string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(Cellphone1))
-            {
-                CompanyId = GenerateCompanyId(CompanyName, Cell1);
-            }
-        }
+        //public void GenerateCompanyId()
+        //{
+        //    if (!string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(Cellphone1))
+        //    {
+        //        CompanyId = GenerateCompanyId(CompanyName, Cellphone1);
+        //    }
+        //}
 
         // Static method to generate Company ID
-        private static string GenerateCompanyId(string CompanyName, string cellphone1)
-        {
-            // Combine the company name and cell
-            string combined = $"{companyName.Trim().ToLower()}-{cell1.Trim()}";
-
-            // Generate a hash of the combined string
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(combined));
-                // Convert the byte array to a hexadecimal string
-                StringBuilder hashString = new StringBuilder();
-                foreach (byte b in hashBytes)
-                {
-                    hashString.Append(b.ToString("x2"));
-                }
-
-                // Return the first 10 characters of the hash as the Company ID
-                return hashString.ToString().Substring(0, 10).ToUpper();
-            }
-        }
+        
 
     }
 }

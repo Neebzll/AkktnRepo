@@ -1,7 +1,13 @@
 ﻿@{
     var signedin =  Context.Session.GetString("Signed");
+    var isadmin = Context.Session.GetString("isAdmin");
+    if(signedin==null){
+        signedin = "not signed-in";
+    }
+    else{
     if(!signedin.Equals("not signed-in")){
         signedin = "Signed as: " + signedin;
+    }
     }
     // if (Context.Session.GetString("Signed").Equals("")){
     //     signedin = "Not signed-in";
@@ -55,11 +61,22 @@
                                         @signedin
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li>
-                                    <form asp-controller="admin" asp-action="Logout" method="post" class="d-inline">
-                                        <button type="submit" class="dropdown-item">Logout</button>
-                                    </form>
-                                </li>
+                                @{
+                                    if(isadmin.Equals("true")){
+                                        <li>
+                                            <form asp-controller="admin" asp-action="Logout" method="post" class="d-inline">
+                                                <button type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    }
+                                    else{
+                                        <li>
+                                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                                <button type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    }
+                                }
                             </ul>
                         </li>
               }
