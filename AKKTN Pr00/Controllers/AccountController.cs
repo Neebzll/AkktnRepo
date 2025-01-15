@@ -59,7 +59,7 @@ namespace AKKTN_Pr00.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Sign_in_ViewModel);
+                _context.Add(Sign_UpViewModel);
                 await _context.SaveChangesAsync();
 
 
