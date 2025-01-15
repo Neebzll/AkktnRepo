@@ -32,7 +32,10 @@ namespace AKKTN_Pr00.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email Address 1, model.company password, model.RememberMe, false);
+                var findemail = _context.companies
+                   .FirstOrDefault(ad => ad.EmailAddress1.Equals(companyemail) && ad.companypassword.Equals(companypassword));
+
+                //var result = await signInManager.PasswordSignInAsync(model.EmailAddress1, model.companypassword, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
@@ -52,21 +55,25 @@ namespace AKKTN_Pr00.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(Sign_UpViewModel model)
+        public async Task<IActionResult> Register([Bind("CompanyID,CompanyName,companypassword,RegistrationNumber,Status,ContactName1,EmailAddress1,Cellphone1,ContactName2,EmailAddress2,Cellphone2")] Sign_UpViewModel model)
         {
             if (ModelState.IsValid)
             {
-                 user user = new user 
+                _context.Add(Sign_in_ViewModel);
+                await _context.SaveChangesAsync();
+
+
+                user user = new user 
                 {
                 
-                    FullName = model.CompanyName
-                    UserName = model.Email Address 1,
-                    Email = model.Email Address 1
+                    FullName = model.CompanyName,
+                    UserName = model.EmailAddress1,
+                    Email = model.EmailAddress1
 
 
                  };
 
-                var result = await userManager.CreateAsync(user , model.company password);
+                var result = await userManager.CreateAsync(user , model.companypassword);
 
                 if (result.Succeeded)
                 {

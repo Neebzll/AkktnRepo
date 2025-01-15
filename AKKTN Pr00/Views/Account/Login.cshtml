@@ -12,14 +12,14 @@
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
-                <label asp-for="Email Address 1" class="form-label"></label>
-                <input asp-for="Email1" class="form-control" />
-                <span asp-validation-for="Email Address 1" class="text-danger"></span>
+                <label asp-for="EmailAddress1" class="form-label"></label>
+                <input asp-for="EmailAddress1" class="form-control" />
+                <span asp-validation-for="EmailAddress1" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="company password" class="form-label"></label>
-                <input asp-for="companypass" class="form-control" />
-                <span asp-validation-for="company password" class="text-danger"></span>
+                <label asp-for="companypassword" class="form-label"></label>
+                <input asp-for="companypassword" class="form-control" />
+                <span asp-validation-for="companypassword" class="text-danger"></span>
             </div>
             <div class="float-end">
                 <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">

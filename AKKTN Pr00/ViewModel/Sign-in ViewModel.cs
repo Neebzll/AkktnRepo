@@ -8,10 +8,10 @@ namespace AKKTN_Pr00.ViewModel
     {
         [Required(ErrorMessage = "EmailAddress 1 is required")]
    
-        public string Email Address 1 { get; set; }
+        public string EmailAddress1 { get; set; }
         [Required(ErrorMessage = "company password is required")]
         [DataType(DataType.Password)]
-        public string company password { get; set; }
+        public string companypassword { get; set; }
 
         [Display(Name = "Remember Me?")]
         public bool RememberMe { get; set; }
