@@ -148,11 +148,16 @@ namespace AKKTN_Pr00.Controllers
                 return View(model);
             }
         }
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout() 
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult AccessDenied()//Ngcebo added if errors remove as well as in appsettings
+        {
+            return View();
+        }
+
 
     }
 

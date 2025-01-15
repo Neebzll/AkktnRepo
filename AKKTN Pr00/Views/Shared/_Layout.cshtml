@@ -1,6 +1,7 @@
 ﻿@{
-    var signedin =  Context.Session.GetString("Signed");
-    if(!signedin.Equals("not signed-in")){
+    var signedin = Context.Session.GetString("Signed");
+    if (!signedin.Equals("not signed-in"))
+    {
         signedin = "Signed as: " + signedin;
     }
     // if (Context.Session.GetString("Signed").Equals("")){
@@ -8,7 +9,7 @@
     // }else{
     //     signedin = "Signed as: "+Context.Session.GetString("Signed");
     // }
-    
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -36,15 +37,114 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="CompanyTeams" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Team-Members</a>
                         </li>
                 </div>
+                <div class="itemHide">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Clients</a>
+                    </li>
+                </div>
+                        @{
+                            if (signedin.Equals("not signed-in"))
+                            {
+                        <li class="nav-item ms-auto ">
+                            <a class="nav-link  text-dark signed" asp-controller="admin" asp-action="Index">
+                                        @signedin
+                            </a>
+
+                        </li>
+
+                            }
+                            else
+                            {
+                        <li class="nav-item ms-auto dropdown">
+                            <a class="nav-link dropdown-toggle text-dark signed" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @signedin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <form asp-controller="admin" asp-action="Logout" method="post" class="d-inline">
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                            }
+
+                        }
+
+
+
+                </ul>
+            </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - AKKTN_Pr00
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+{<!-- LINES 100 117 143 146 154 178 190 PLEASE ADD  THE AT SYMBOL  N DELETE DASHES!!!!!
+
+    var signedin =  Context.Session.GetString("Signed");
+    if(!signedin.Equals("not signed-in")){
+        signedin = "Signed as: " + signedin;
+    }
+    // if (Context.Session.GetString("Signed").Equals("")){
+    //     signedin = "Not signed-in";
+    // }else{
+    //     signedin = "Signed as: "+Context.Session.GetString("Signed");
+    // }
+    
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>___----_---___--AT_____--____-____<ViewData["Title"] - AKKTN_Pr00</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AKKTN_Pr00.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AKKTN_Pr00</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <div class="itemHide">
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CompanyTeams" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Team-Members</a>
+                        </li>
+                </div>
                     <div class="itemHide">
                         <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index" asp-route-id="@ViewData["ID"]" asp-route-name="@ViewData["Name"]">Clients</a>
                         </li>
                 </div>
-              @{if(signedin.Equals("not signed-in")){
+              AT______--____------___--if(signedin.Equals("not signed-in")){
                         <li class="nav-item ms-auto ">
                             <a class="nav-link  text-dark signed" asp-controller="admin" asp-action="Index" >
-                                        @signedin
+                                        AT__-_____--_-_---signedin
                             </a>
                             
                         </li>
@@ -52,7 +152,7 @@
               }else{
                         <li class="nav-item ms-auto dropdown">
                             <a class="nav-link dropdown-toggle text-dark signed" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        @signedin
+                                        AT_-___------_---_---signedin
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li>
@@ -76,7 +176,7 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            AT_______________<RenderBody()
         </main>
     </div>
 
@@ -88,6 +188,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    AT___--_-____--_---____await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+-->

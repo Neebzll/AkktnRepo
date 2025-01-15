@@ -20,26 +20,26 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Tasks
-        //public async Task<IActionResult> Index(int? ClientID,string? id,string? name)
-        //{
-        //    var tasksForClient = from at in _context.assignedTasks
-        //                         join t in _context.tasks on at.TaskID equals t.TaskID
-        //                         where at.ClientID == ClientID
-        //                         select  t;
-        //   var tasks= tasksForClient.Distinct();
-        //    ViewData["ID"] = id;
-        //    ViewData["Name"]=_context.companies.FirstOrDefault(c=>c.CompanyID==id).CompanyName;
-        //    if (name != null)
-        //    {
-        //        ViewData["client"]=name;
-        //    }
-        //    else
-        //    {
-        //        ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
+        /*public async Task<IActionResult> Index(int? ClientID,string? id,string? name)
+        {
+            var tasksForClient = from at in _context.assignedTasks
+                                 join t in _context.tasks on at.TaskID equals t.TaskID
+                                 where at.ClientID == ClientID
+                                select  t;
+           var tasks= tasksForClient.Distinct();
+            ViewData["ID"] = id;
+            ViewData["Name"]=_context.companies.FirstOrDefault(c=>c.CompanyID==id).CompanyName;
+            if (name != null)
+            {
+                ViewData["client"]=name;
+            }
+            else
+            {
+                ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
 
-        //    }
-        //    return View(await tasks.ToListAsync());
-        //}        
+            }
+            return View(await tasks.ToListAsync());
+        }  */      
         public async Task<IActionResult> Index(int? ClientID, string? id, string? name)
         {
             // Fetch tasks based on the provided CompanyID
@@ -80,44 +80,44 @@ namespace AKKTN_Pr00.Controllers
 
             return View(viewModel);
         }
-        //public async Task<IActionResult> Index(int? ClientID,string? id,string? name,ViewTasks? view)
-        //{
-        //    var tasks = _context.tasks.ToList();
+        /*public async Task<IActionResult> Index(int? ClientID,string? id,string? name,ViewTasks? view)
+        {
+            var tasks = _context.tasks.ToList();
 
-        //    // Create a dictionary to map TaskID to members
-        //    var taskMembers = tasks.ToDictionary(
-        //        task => task.TaskID,
-        //        task => _context.assignedTasks
-        //                        .Where(at => at.TaskID == task.TaskID)
-        //                        .Join(_context.companiesTeam,
-        //                              at => at.memberID,
-        //                              member => member.memberID,
-        //                              (at, member) => member) // Join assignedTasks with CompanyTeam
-        //                        .ToList()
-        //    );
+            // Create a dictionary to map TaskID to members
+            var taskMembers = tasks.ToDictionary(
+                task => task.TaskID,
+                task => _context.assignedTasks
+                                .Where(at => at.TaskID == task.TaskID)
+                                .Join(_context.companiesTeam,
+                                      at => at.memberID,
+                                      member => member.memberID,
+                                      (at, member) => member) // Join assignedTasks with CompanyTeam
+                                .ToList()
+            );
 
-        //    // Populate the ViewModel
-        //    var viewModel = new ViewTasks
-        //    {
-        //        Tasks = tasks,
-        //        TaskMembers = taskMembers
-        //    };
+            // Populate the ViewModel
+            var viewModel = new ViewTasks
+            {
+                Tasks = tasks,
+                TaskMembers = taskMembers
+            };
 
-        //    // Pass the ViewModel to the view
+            // Pass the ViewModel to the view
 
-        //    ViewData["ID"] = id;
-        //    ViewData["Name"]=_context.companies.FirstOrDefault(c=>c.CompanyID==id).CompanyName;
-        //    if (name != null)
-        //    {
-        //        ViewData["client"]=name;
-        //    }
-        //    else
-        //    {
-        //        ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
+            ViewData["ID"] = id;
+            ViewData["Name"]=_context.companies.FirstOrDefault(c=>c.CompanyID==id).CompanyName;
+            if (name != null)
+            {
+                ViewData["client"]=name;
+            }
+            else
+            {
+                ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
 
-        //    }
-        //    return View(viewModel);
-        //}
+            }
+            return View(viewModel);
+        }*/
 
         // GET: Tasks/Details/5
         public async Task<IActionResult> Details(int? id)
