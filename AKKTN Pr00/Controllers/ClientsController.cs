@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AKKTN_Pr00.Controllers
 {
-    [Authorize] // Require authentication for all actions
+    //[Authorize] // Require authentication for all actions
     public class ClientsController : Controller
     {
         private readonly AppDBContext _context;
@@ -24,10 +24,10 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients
-        [Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view clients
+        //[Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view clients
         public IActionResult Index(string? id, string? name)
         {
-            ViewData["isAdmin"] = User.IsInRole("Admin");
+            //ViewData["isAdmin"] = User.IsInRole("Admin");
             ViewData["ID"] = id;
             this.ID = id;
 
@@ -67,7 +67,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients/Details/5
-        [Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view details
+        //[Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -85,7 +85,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients/Create
-        [Authorize(Roles = "Admin, TeamMember")] // Only Admins and Team Members can create clients
+        //[Authorize(Roles = "Admin, TeamMember")] // Only Admins and Team Members can create clients
         public IActionResult Create(string? id)
         {
             ViewData["ID"] = id;
@@ -94,7 +94,7 @@ namespace AKKTN_Pr00.Controllers
 
         // POST: Clients/Create
         [HttpPost]
-        [Authorize(Roles = "Admin, TeamMember")] // Only Admins and Team Members can create clients
+        //[Authorize(Roles = "Admin, TeamMember")] // Only Admins and Team Members can create clients
         public async Task<IActionResult> Create([Bind("ClientID,CompanyID,ClientName,RegistrationNumber,CIPCRegistrationDate,IncomeTaxNumber,VAT,VATPeriod,PayeeNumber,PayeeReferenceNumber,EMP501,UIF,UIFNumber,WCC,WCCNumber,Payroll,MonthlyCashbook,FinancialStatements,IncomeTaxReturn")] Clients clients)
         {
             if (ModelState.IsValid)
@@ -108,7 +108,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients/Edit/5
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit clients
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit clients
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,7 +129,7 @@ namespace AKKTN_Pr00.Controllers
         // POST: Clients/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit clients
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit clients
         public async Task<IActionResult> Edit(int id, [Bind("ClientID,CompanyID,ClientName,RegistrationNumber,CIPCRegistrationDate,IncomeTaxNumber,VAT,VATPeriod,PayeeNumber,PayeeReferenceNumber,EMP501,UIF,UIFNumber,WCC,WCCNumber,Payroll,MonthlyCashbook,FinancialStatements,IncomeTaxReturn")] Clients clients)
         {
             if (id != clients.ClientID)
@@ -148,7 +148,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: Clients/Delete/5
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can delete clients
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can delete clients
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -168,7 +168,7 @@ namespace AKKTN_Pr00.Controllers
         // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can delete clients
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can delete clients
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var client = await _context.clients.FindAsync(id);

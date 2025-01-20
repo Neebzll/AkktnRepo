@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AKKTN_Pr00.Controllers
 {
-    [Authorize] // Require authentication for all actions in the controller
+    //[Authorize] // Require authentication for all actions in the controller
     public class CompanyTeamsController : Controller
     {
         private readonly AppDBContext _context;
@@ -22,7 +22,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: CompanyTeams
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can view teams
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can view teams
         public async Task<IActionResult> Index(string? id)
         {
             ViewData["ID"] = id;
@@ -33,7 +33,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: CompanyTeams/Details/5
-        [Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view details
+        //[Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,7 +52,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: CompanyTeams/Create
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can create
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can create
         public IActionResult Create(string? id)
         {
             ViewData["ID"] = id;
@@ -62,7 +62,7 @@ namespace AKKTN_Pr00.Controllers
         // POST: CompanyTeams/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can create
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can create
         public async Task<IActionResult> Create([Bind("memberID,CompanyID,ContactName,JobTitle,Email,Cell,Role")] CompanyTeam companyTeam)
         {
             if (ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: CompanyTeams/Edit/5
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit
+        //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,7 +94,7 @@ namespace AKKTN_Pr00.Controllers
         // POST: CompanyTeams/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can edit
+     /*   [Authorize(Roles = "Admin, Subscriber")]*/ // Only Admins and Subscribers can edit
         public async Task<IActionResult> Edit(int id, [Bind("memberID,CompanyID,ContactName,JobTitle,Email,Cell,Role")] CompanyTeam companyTeam)
         {
             if (ModelState.IsValid)
@@ -107,7 +107,7 @@ namespace AKKTN_Pr00.Controllers
         }
 
         // GET: CompanyTeams/Delete/5
-        [Authorize(Roles = "Admin")] // Only Admins can delete
+        //[Authorize(Roles = "Admin")] // Only Admins can delete
         public async Task<IActionResult> Delete(int? id)
         {
             var companyTeam = await _context.companiesTeam
@@ -119,7 +119,7 @@ namespace AKKTN_Pr00.Controllers
         // POST: CompanyTeams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")] // Only Admins can delete
+        //[Authorize(Roles = "Admin")] // Only Admins can delete
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var companyTeam = await _context.companiesTeam.FindAsync(id);

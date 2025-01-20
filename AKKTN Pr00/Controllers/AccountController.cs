@@ -41,9 +41,10 @@ namespace AKKTN_Pr00.Controllers
 
                 if (findemail != null)
                 {
+                    
                     HttpContext.Session.SetString("isAdmin", "false");
                     HttpContext.Session.SetString("Signed", model.EmailAddress1);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Clients", new { id= findemail.CompanyID });
                 }
                 else
                 {
