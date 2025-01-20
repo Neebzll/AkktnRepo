@@ -66,34 +66,34 @@ app.UseAuthorization();
 // Configure default route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Tasks}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
-// Seed roles and an admin user
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<user>>();
+//// Seed roles and an admin user
+//using (var scope = app.Services.CreateScope())
+//{
+//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<user>>();
 
-    // Define roles
-    string[] roles = { "Admin", "Subscriber", "TeamMember" };
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
+//    // Define roles
+//    string[] roles = { "Admin", "Subscriber", "TeamMember" };
+//    foreach (var role in roles)
+//    {
+//        if (!await roleManager.RoleExistsAsync(role))
+//        {
+//            await roleManager.CreateAsync(new IdentityRole(role));
+//        }
+//    }
 
-    // Seed an admin user
-    var adminEmail = "admin@example.com";
-    var adminPassword = "Admin@123";
-    if (await userManager.FindByEmailAsync(adminEmail) == null)
-    {
-        var adminUser = new user { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
-        await userManager.CreateAsync(adminUser, adminPassword);
-        await userManager.AddToRoleAsync(adminUser, "Admin");
-    }
-}
+//    // Seed an admin user
+//    var adminEmail = "admin@example.com";
+//    var adminPassword = "Admin@123";
+//    if (await userManager.FindByEmailAsync(adminEmail) == null)
+//    {
+//        var adminUser = new user { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
+//        await userManager.CreateAsync(adminUser, adminPassword);
+//        await userManager.AddToRoleAsync(adminUser, "Admin");
+//    }
+//}
 
 app.Run();
 
