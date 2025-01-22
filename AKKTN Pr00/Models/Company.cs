@@ -20,7 +20,7 @@ namespace AKKTN_Pr00.Models
         [StringLength(13,ErrorMessage ="Registration number must be under 13 characters")]
         public string RegistrationNumber { get; set; }
         
-        [Required]
+        //[Required]
         public string Status { get; set; }
         
         [Required]

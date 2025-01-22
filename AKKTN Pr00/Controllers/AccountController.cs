@@ -7,6 +7,7 @@ using DocumentFormat.OpenXml.InkML;
 using AKKTN_Pr00.Data;
 using System.Text;
 using System.Security.Cryptography;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -26,7 +27,7 @@ namespace AKKTN_Pr00.Controllers
 
         public IActionResult Login()
         {
-          
+        
             return View();
         }
         [HttpPost]
@@ -34,6 +35,7 @@ namespace AKKTN_Pr00.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.companypassword =hashpassword(model.companypassword);
                 var findemail = _context.companies
                     .FirstOrDefault(ad =>
                         (ad.Email1.Equals(model.EmailAddress1) || ad.Email2.Equals(model.EmailAddress1))
@@ -79,17 +81,39 @@ namespace AKKTN_Pr00.Controllers
         {
             return View();
         }
+        public string hashpassword(string password)
+        {
+            SHA256 sha256 = SHA256.Create();
+            var bytes=Encoding.Default.GetBytes(password);
+            var hashed= sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hashed);
+        }
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("CompanyID,CompanyName,companypassword,RegistrationNumber,Status,ContactName1,EmailAddress1,Cellphone1,ContactName2,EmailAddress2,Cellphone2")] Sign_UpViewModel model)
+        public async Task<IActionResult> Register([Bind("CompanyName,companypassword,confirmcompanypassword,RegistrationNumber,status,ContactName1,EmailAddress1,Cellphone1,ContactName2,EmailAddress2,Cellphone2")] Sign_UpViewModel model)
         {
             if (ModelState.IsValid)
             {
                 string ID = "";
-                if (!string.IsNullOrWhiteSpace(model.CompanyName) && !string.IsNullOrWhiteSpace(model.Cellphone1))
-                {
-                    ID = GenerateCompanyId(model.CompanyName, model.Cellphone1);
-                }
-                _context.Add(model);
+
+                ID = GenerateCompanyId(model.CompanyName, model.Cellphone1);;
+                
+                string hashedpass = hashpassword(model.companypassword);
+               Company com=new Company() {
+                   CompanyID=ID,
+                   CompanyName=model.CompanyName,
+                   companypass=hashedpass,
+                   ContactName1 = model.ContactName1,
+                   Email1=model.EmailAddress1,
+                   Cell1 = model.Cellphone1,
+                   ContactName2 = model.ContactName2,
+                   Cell2 = model.Cellphone2,
+                   Email2 = model.EmailAddress2,
+                   RegistrationNumber = model.RegistrationNumber,
+                   Status=model.status
+                   
+               };
+
+                _context.companies.Add(com);
                 await _context.SaveChangesAsync();
 
 
