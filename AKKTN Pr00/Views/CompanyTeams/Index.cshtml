@@ -2,7 +2,7 @@
 
 
 
-<h1>@ViewData["name"] Team members</h1>
+<h1>@Context.Session.GetString("CompanyName") Team members</h1>
 <hr />
 <p>
     <a class="btn btn-outline-secondary" asp-action="Create" asp-controller="CompanyTeams" asp-route-id="@ViewData["ID"]">Add new member</a>

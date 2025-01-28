@@ -9,7 +9,7 @@
     }
 </style>
 <div class="movetable">
-<h1 >@ViewData["Name"] Clients</h1>
+<h1 >@Context.Session.GetString("CompanyName") Clients</h1>
 <hr/>
 <!-- Admin Password Form (Initially hidden) -->
 <div id="adminPasswordFormTemplate" style="display:none; margin-top: 20px;">

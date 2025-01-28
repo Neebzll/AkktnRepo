@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -21,11 +22,21 @@ namespace AKKTN_Pr00.Controllers
         }
         public ActionResult AdminDash()
         {
-            ViewData["Name"] = "";
-            ViewData["ID"] = "";
-            ViewData["client"] = "";
-            HttpContext.Session.SetString("Signed", "admin@gmail.com");
-            return View(_context.companies.ToList());
+            if(HttpContext.Session.GetString("Signed").IsNullOrEmpty())
+            {
+                return View("Index");
+            }
+            else
+            {
+                ViewData["Name"] = "";
+                ViewData["ID"] = "";
+                ViewData["client"] = "";
+                
+                //HttpContext.Session.SetString("Signed", "admin@gmail.com");
+                HttpContext.Session.SetString("isAdmin", "true");
+                return View(_context.companies.ToList());
+            }
+            
         }
         // GET: admin
         public ActionResult Index()
@@ -88,8 +99,9 @@ namespace AKKTN_Pr00.Controllers
             {
                 return NotFound();
             }
+            HttpContext.Session.SetString("companyID", comtbl.CompanyID);
             
-            return RedirectToAction("Index", "Clients", new { id = comtbl.CompanyID, name=comtbl.CompanyName });
+            return RedirectToAction("Index", "Clients");
             //return RedirectToAction("Index", "Companies", new { name = comtbl.CompanyName });
         }
 

@@ -25,9 +25,9 @@ namespace AKKTN_Pr00.Controllers
         //[Authorize(Roles = "Admin, Subscriber")] // Only Admins and Subscribers can view teams
         public async Task<IActionResult> Index(string? id)
         {
-            ViewData["ID"] = id;
+            id = HttpContext.Session.GetString("companyID");
             var name = _context.companies.FirstOrDefault(c => c.CompanyID == id);
-            ViewData["Name"] = name.CompanyName;
+            HttpContext.Session.SetString("CompanyName", name.CompanyName);
 
             return View(await _context.companiesTeam.Where(ct => ct.CompanyID == id).ToListAsync());
         }

@@ -14,9 +14,9 @@ namespace AKKTN_Pr00.Controllers
     {
         private readonly AppDBContext _context;
 
-        public string AdminPassword = "1234";
-        public string ID = "";
-        public string name = "";
+        //public string AdminPassword = "1234";
+      
+    
 
         public ClientsController(AppDBContext context)
         {
@@ -25,24 +25,18 @@ namespace AKKTN_Pr00.Controllers
 
         // GET: Clients
         //[Authorize(Roles = "Admin, Subscriber, TeamMember")] // All roles can view clients
-        public IActionResult Index(string? id, string? name)
+        public IActionResult Index()
         {
             //ViewData["isAdmin"] = User.IsInRole("Admin");
-            ViewData["ID"] = id;
-            this.ID = id;
+            //ViewData["ID"] = id;
 
+           string id = HttpContext.Session.GetString("companyID");
             var clients = _context.clients.Where(c => c.CompanyID.Equals(id));
-            if (name == null)
-            {
+            
                 var company = _context.companies.FirstOrDefault(c => c.CompanyID.Equals(id));
-                ViewData["Name"] = company?.CompanyName;
-                this.name = company?.CompanyName;
-            }
-            else
-            {
-                ViewData["Name"] = name;
-                this.name = name;
-            }
+            HttpContext.Session.SetString("CompanyName", company.CompanyName.ToString());
+
+
 
             return View(clients);
         }
@@ -63,7 +57,7 @@ namespace AKKTN_Pr00.Controllers
                 return RedirectToAction(nameof(Delete), new { id = ClientID });
             }
 
-            return RedirectToAction(nameof(Index), new { id = CompanyID });
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Clients/Details/5
@@ -101,7 +95,7 @@ namespace AKKTN_Pr00.Controllers
             {
                 _context.clients.Add(clients);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = clients.CompanyID });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(clients);
@@ -141,7 +135,7 @@ namespace AKKTN_Pr00.Controllers
             {
                 _context.clients.Update(clients);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = clients.CompanyID });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(clients);
@@ -181,7 +175,7 @@ namespace AKKTN_Pr00.Controllers
             _context.clients.Remove(client);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index), new { id = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private bool ClientsExists(int id)

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -40,8 +42,11 @@ namespace AKKTN_Pr00.Controllers
             }
             return View(await tasks.ToListAsync());
         }  */      
-        public async Task<IActionResult> Index(int? ClientID, string? id, string? name)
+        public async Task<IActionResult> Index(int? ClientID, string? id)
         {
+            HttpContext.Session.SetString("ClientID", ClientID.ToString());
+            //HttpContext.Session.SetString("CompanyID", id.ToString());
+            id =HttpContext.Session.GetString("companyID");
             // Fetch tasks based on the provided CompanyID
             var tasks = await _context.tasks
                 .Where(t => t.CompanyID == id)
@@ -66,17 +71,14 @@ namespace AKKTN_Pr00.Controllers
                 Tasks = tasks,
                 TaskMembers = taskMembers,
                };
-            ViewData["ID"] = id;
-            ViewData["Name"] = _context.companies.FirstOrDefault(c => c.CompanyID == id).CompanyName;
-            if (name != null)
-            {
-                ViewData["client"] = name;
-            }
-            else
-            {
-                ViewData["client"] = _context.clients.FirstOrDefault(c => c.ClientID == ClientID).ClientName;
+            //ViewData["ID"] = id;
+           /* ViewData["Name"]*/ var cname = _context.companies.FirstOrDefault(c => c.CompanyID == id).CompanyName;
+            HttpContext.Session.SetString("CompanyName", cname.ToString());
+           
+            
+               HttpContext.Session.SetString("ClientName", _context.clients.FirstOrDefault(c => c.ClientID == int.Parse(HttpContext.Session.GetString("ClientID"))).ClientName) ;
 
-            }
+            
 
             return View(viewModel);
         }
@@ -140,40 +142,95 @@ namespace AKKTN_Pr00.Controllers
         // GET: Tasks/Create
         public IActionResult Create()
         {
-            return View();
+            string id = HttpContext.Session.GetString("companyID");
+            CreateTask model = new CreateTask()
+            {
+                Tasks = new Tasks(),
+                TeamMembers = _context.companiesTeam.Where(ct => ct.CompanyID == id).ToList()
+            };
+            
+            return View(model);
         }
+
 
         // POST: Tasks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaskID,CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Tasks tasks)
+        public async Task<IActionResult> Create(
+      [Bind("CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Tasks tasks,List<int> MembersID)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tasks);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tasks);
-        }
+            if (MembersID.IsNullOrEmpty()) {
 
-        // GET: Tasks/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+                ViewBag.ErrorMessage = "Select at least one team member";
+
+            }
+            else
             {
-                return NotFound();
+                if (ModelState.IsValid)
+                {
+                   
+                    try
+                    {
+                        _context.tasks.Add(tasks);
+                        _context.SaveChanges();
+                        int taskid = tasks.TaskID;
+                        foreach(int m in MembersID)
+                        {
+                            assignedTasks assigned = new assignedTasks()
+                            {
+                                ClientID = int.Parse(HttpContext.Session.GetString("ClientID")),
+                                TaskID = taskid,
+                                memberID = m
+                            };
+                            _context.assignedTasks.Add(assigned);
+                        }
+                        _context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        return View("Error");
+                    }
+
+                  
+                    return RedirectToAction("Index", new { ClientID = HttpContext.Session.GetString("ClientID") });
+                }
             }
 
-            var tasks = await _context.tasks.FindAsync(id);
-            if (tasks == null)
+           
+
+            // Reload members in case of error
+
+            string id = HttpContext.Session.GetString("companyID");
+            CreateTask model = new CreateTask()
             {
-                return NotFound();
-            }
-            return View(tasks);
+                Tasks = tasks,
+                TeamMembers = _context.companiesTeam.Where(ct => ct.CompanyID == id).ToList()
+            };
+            return View(model);
         }
+    
+        
+      //  [HttpPost]
+      //  [ValidateAntiForgeryToken]
+      //  public async Task<IActionResult> Create(
+      //[Bind("CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Tasks tasks)
+      //  {
+      //      if (ModelState.IsValid)
+      //      {
+      //          _context.tasks.Add(tasks);
+      //          await _context.SaveChangesAsync(); 
+      //          return RedirectToAction("Index",new {ClientID=HttpContext.Session.GetString("ClientID")});
+      //      }
+
+      //      // Reload members in case of error
+         
+
+      //      return View(tasks);
+      //  }
+
+
 
         // POST: Tasks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -235,23 +292,28 @@ namespace AKKTN_Pr00.Controllers
         {
             var tasks = await _context.tasks.FindAsync(id);
             var company=tasks.CompanyID;
-            var clientid = 0;
+            
+            var clientid = int.Parse(HttpContext.Session.GetString("ClientID"));
             var clientname = "";
             if (tasks != null)
             {
                 var assigned = _context.assignedTasks.Where(assignedTasks => assignedTasks.TaskID == id);
-                clientid = assigned.FirstOrDefault(c => c.TaskID == id).ClientID;
+             
+                
                var client = _context.clients.FirstOrDefault(c=>c.ClientID==clientid).ClientName;
                 clientname = client;
                 if (assigned.Any())
                 {
+                    clientid = assigned.FirstOrDefault(c => c.TaskID == id).ClientID;
+
                     _context.assignedTasks.RemoveRange(assigned);
-                    _context.tasks.Remove(tasks);
+                   
                 }
+                _context.tasks.Remove(tasks);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new { ClientID = id, id = company,name=clientname });
+            return RedirectToAction(nameof(Index), new { ClientID = clientid, id = company,name=clientname });
         }
 
         private bool TasksExists(int id)
