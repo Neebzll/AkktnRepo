@@ -4,9 +4,9 @@
     ViewData["Title"] = "Details";
 }
 <style>
-    .nav-link {
+    /* .nav-link {
         display: none;
-    }
+    } */
 
     .itemHide .nav-link.text-dark.signed {
         display: none;
@@ -18,10 +18,10 @@
     <h4>Tasks</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-2 visually-hidden">
             @Html.DisplayNameFor(model => model.CompanyID)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 visually-hidden">
             @Html.DisplayFor(model => model.CompanyID)
         </dd>
         <dt class = "col-sm-2">

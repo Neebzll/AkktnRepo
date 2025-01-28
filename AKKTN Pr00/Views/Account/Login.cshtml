@@ -12,12 +12,12 @@
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
-                <label asp-for="EmailAddress1" class="form-label"></label>
+                <label asp-for="EmailAddress1" class="form-label">Email Address</label>
                 <input asp-for="EmailAddress1" class="form-control" />
                 <span asp-validation-for="EmailAddress1" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="companypassword" class="form-label"></label>
+                <label asp-for="companypassword" class="form-label">Password</label>
                 <input asp-for="companypassword" class="form-control" />
                 <span asp-validation-for="companypassword" class="text-danger"></span>
             </div>
@@ -26,11 +26,9 @@
                     Forgot password?
                 </a>
             </div>
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input asp-for="RememberMe" class="form-check-input" />
-                    @Html.DisplayNameFor(a => a.RememberMe)
-                </label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="ShowPassword" />
+                <label class="form-check-label" for="ShowPassword">Show Password</label>
             </div>
             <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
             <p class="text-center mt-2">
@@ -42,7 +40,17 @@
         </form>
     </div>
 </div>
-
+<script>
+    // Toggle the password visibility
+    document.getElementById('ShowPassword').addEventListener('change', function() {
+        var passwordField = document.getElementById('companypassword');
+        if (this.checked) {
+            passwordField.type = 'text'; // Show password
+        } else {
+            passwordField.type = 'password'; // Hide password
+        }
+    });
+</script>>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");

@@ -1,5 +1,11 @@
 ﻿@model AKKTN_Pr00.Models.ViewTasks
 
+@* <div style="margin-left:-2%">
+    <a asp-action="Index" asp-controller="Clients" >
+        <span><i class="bi bi-arrow-left-circle"></i></span>
+    </a>
+</div>
+ *@
 
 <h1>@Context.Session.GetString("CompanyName") Tasks</h1>
 <p>for @Context.Session.GetString("ClientName")</p>
@@ -13,138 +19,97 @@
 }
 <hr />
 
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssignTaskDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DueDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reminders)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskStatus)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AssignTaskDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reminders)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskStatus)
-            </td>
-            <td>
-                
-                <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.TaskID">Details</a> 
-                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.TaskID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table> *@
+@{
+    if(!Model.Tasks.Any()){
+        <p>No tasks found</p>
+    } else{
+        <ul class="d-flex flex-wrap list-unstyled">
+            @foreach (var task in Model.Tasks)
+            {
+                var uniqueId = "collapse-" + task.TaskID;
+                <li class="p-2">
+                    <div>
+                        <div class="card" style="width: fit-content;">
+                            <div class="card-header">
+                                @task.TaskStatus.ToUpper()
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Due: @task.DueDate?.ToString("yyyy-MM-dd")</h5>
+                                <p class="card-text">@task.TaskDescription</p>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#@uniqueId" aria-expanded="false" aria-controls="@uniqueId">
+                                    Members Assigned
+                                </button>
+                                <div class="collapse" id="@uniqueId">
+                                    <div class="card card-body">
+                                        <h6>Assigned Members:</h6>
+                                        @{
+                                            if (Context.Session.GetString("isAdmin").Equals("false"))
+                                            {
+                                                if (Model.TaskMembers[task.TaskID].Any())
+                                                {
+                                                    <ul>
+                                                        @foreach (var member in Model.TaskMembers[task.TaskID])
+                                                        {
+                                                            <li>@member.ContactName - @member.Role</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <p>No members assigned to this task.</p>
+                                                }
+                                                // <a asp-action="members"  asp-route-id="@task.TaskID">Add member</a>
 
-<ul class="d-flex flex-wrap list-unstyled">
-    @foreach (var task in Model.Tasks)
-    {
-        var uniqueId = "collapse-" + task.TaskID;
-        <li class="p-2">
-            <div>
-                <div class="card" style="width: fit-content;">
-                    <div class="card-header">
-                        @task.TaskStatus.ToUpper()
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Due: @task.DueDate?.ToString("yyyy-MM-dd")</h5>
-                        <p class="card-text">@task.TaskDescription</p>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#@uniqueId" aria-expanded="false" aria-controls="@uniqueId">
-                            Members Assigned
-                        </button>
-                        <div class="collapse" id="@uniqueId">
-                            <div class="card card-body">
-                                <h6>Assigned Members:</h6>
+                                            }
+                                            else
+                                            {
+                                                if (Model.TaskMembers[task.TaskID].Any())
+                                                {
+                                                    <ul>
+                                                        @foreach (var member in Model.TaskMembers[task.TaskID])
+                                                        {
+                                                            <li>@member.ContactName - @member.Role</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <p>No members assigned to this task.</p>
+                                                }
+                                            }
+
+                                        }
+
+                                    </div>
+                                </div>
                                 @{
-                                    if (Context.Session.GetString("isAdmin").Equals("false")){
-                                        if (Model.TaskMembers[task.TaskID].Any())
-                                        {
-                                            <ul>
-                                                @foreach (var member in Model.TaskMembers[task.TaskID])
-                                                {
-                                                    <li>@member.ContactName - @member.Role</li>
-                                                }
-                                            </ul>
-                                        }
-                                        else
-                                        {
-                                            <p>No members assigned to this task.</p>
-                                        }
-                                        // <a asp-action="members"  asp-route-id="@task.TaskID">Add member</a>
+                                    if (Context.Session.GetString("isAdmin").Equals("false"))
+                                    {
+                                        <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@task.TaskID">Details</a>
+                                        <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@task.TaskID">Delete</a>
+                                        <a asp-action="Edit" class="btn btn-outline-warning" asp-route-id="@task.TaskID">Edit</a>
 
-                                    }else{
-                                        if (Model.TaskMembers[task.TaskID].Any())
-                                        {
-                                            <ul>
-                                                @foreach (var member in Model.TaskMembers[task.TaskID])
-                                                {
-                                                    <li>@member.ContactName - @member.Role</li>
-                                                }
-                                            </ul>
-                                        }
-                                        else
-                                        {
-                                            <p>No members assigned to this task.</p>
-                                        }
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@task.TaskID">Details</a>
+                                        <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@task.TaskID">Delete</a>
+
                                     }
 
                                 }
-                                
+
                             </div>
-                           </div>
-                        @{
-                            if (Context.Session.GetString("isAdmin").Equals("false")){
-                                <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@task.TaskID">Details</a>
-                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@task.TaskID">Delete</a>
-                                <a asp-action="Edit" class="btn btn-outline-warning" asp-route-id="@task.TaskID">Edit</a>
 
-                            }else{
-                                <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@task.TaskID">Details</a>
-                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@task.TaskID">Delete</a>
-
-                            }
-
-                           }
-                      
+                        </div>
                     </div>
-                  
-                </div>
-            </div>
-        </li>
+                </li>
+            }
+        </ul>
+
     }
-</ul>
+}
+
 
 
 

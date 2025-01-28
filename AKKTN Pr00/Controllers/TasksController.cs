@@ -9,6 +9,7 @@ using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.IdentityModel.Tokens;
+using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -48,11 +49,16 @@ namespace AKKTN_Pr00.Controllers
             //HttpContext.Session.SetString("CompanyID", id.ToString());
             id =HttpContext.Session.GetString("companyID");
             // Fetch tasks based on the provided CompanyID
-            var tasks = await _context.tasks
-                .Where(t => t.CompanyID == id)
-                .ToListAsync();
+            var tasks = await _context.assignedTasks
+                    .Where(at => at.ClientID == ClientID)
+                    .Join(_context.tasks,
+                          at => at.TaskID,
+                          task => task.TaskID,
+                          (at, task) => task)
+                    .Where(task => task.CompanyID == id)
+                    .ToListAsync();
 
-            // Fetch members for each task filtered by CompanyID
+            // Fetch members for each task filtered by ClientID and CompanyID
             var taskMembers = tasks.ToDictionary(
                 task => task.TaskID,
                 task => _context.assignedTasks
@@ -64,6 +70,7 @@ namespace AKKTN_Pr00.Controllers
                     .Where(member => member.CompanyID == id) // Ensure the member is linked to the CompanyID
                     .ToList()
             );
+
 
             // Populate ViewModel
             var viewModel = new ViewTasks
@@ -145,7 +152,7 @@ namespace AKKTN_Pr00.Controllers
             string id = HttpContext.Session.GetString("companyID");
             CreateTask model = new CreateTask()
             {
-                Tasks = new Tasks(),
+                Tasks = new Models.Tasks(),
                 TeamMembers = _context.companiesTeam.Where(ct => ct.CompanyID == id).ToList()
             };
             
@@ -159,7 +166,7 @@ namespace AKKTN_Pr00.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-      [Bind("CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Tasks tasks,List<int> MembersID)
+      [Bind("CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Models.Tasks tasks,List<int> MembersID)
         {
             if (MembersID.IsNullOrEmpty()) {
 
@@ -210,62 +217,126 @@ namespace AKKTN_Pr00.Controllers
             };
             return View(model);
         }
-    
-        
-      //  [HttpPost]
-      //  [ValidateAntiForgeryToken]
-      //  public async Task<IActionResult> Create(
-      //[Bind("CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Tasks tasks)
-      //  {
-      //      if (ModelState.IsValid)
-      //      {
-      //          _context.tasks.Add(tasks);
-      //          await _context.SaveChangesAsync(); 
-      //          return RedirectToAction("Index",new {ClientID=HttpContext.Session.GetString("ClientID")});
-      //      }
-
-      //      // Reload members in case of error
-         
-
-      //      return View(tasks);
-      //  }
 
 
 
         // POST: Tasks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TaskID,CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Tasks tasks)
+
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != tasks.TaskID)
+            var task = await _context.tasks.FirstOrDefaultAsync(t => t.TaskID == id);
+
+            if (task == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            // Get the company ID from the session
+            string companyId = HttpContext.Session.GetString("companyID");
+
+            // Get all team members for the company
+            var teamMembers = _context.companiesTeam.Where(ct => ct.CompanyID == companyId).ToList();
+
+            // Get the IDs of members already assigned to this task
+            var assignedMemberIDs = _context.assignedTasks
+                .Where(tm => tm.TaskID == id)
+                .Select(tm => tm.memberID)
+                .ToList();
+
+            // Populate the model
+            CreateTask model = new CreateTask()
+            {
+                Tasks = task,
+                TeamMembers = teamMembers
+            };
+
+            // Pass the assigned Member IDs via ViewBag
+            ViewBag.AssignedMembers = assignedMemberIDs;
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+       [Bind("TaskID,CompanyID,TaskDescription,AssignTaskDate,DueDate,Reminders,TaskStatus")] Models.Tasks tasks,
+       List<int> MembersID)
+        {
+            string companyId = HttpContext.Session.GetString("companyID");
+
+            if (MembersID == null || !MembersID.Any())
+            {
+                ViewBag.ErrorMessage = "Select at least one team member.";
+            }
+
+            if (ModelState.IsValid && MembersID.Any())
             {
                 try
                 {
+                    // Update the task details
                     _context.Update(tasks);
                     await _context.SaveChangesAsync();
+
+                    // Fetch existing assignments for the task
+                    var existingAssignments = _context.assignedTasks.Where(at => at.TaskID == tasks.TaskID).ToList();
+
+                    // Find members to remove (not in the new MembersID list)
+                    var membersToRemove = existingAssignments
+                        .Where(at => !MembersID.Contains(at.memberID))
+                        .ToList();
+
+                    // Remove unassigned members
+                    _context.assignedTasks.RemoveRange(membersToRemove);
+
+                    // Find members to add (in MembersID but not in existingAssignments)
+                    var membersToAdd = MembersID
+                        .Where(memberID => !existingAssignments.Any(at => at.memberID == memberID))
+                        .Select(memberID => new assignedTasks
+                        {
+                            ClientID = int.Parse(HttpContext.Session.GetString("ClientID").ToString()),
+                            TaskID = tasks.TaskID,
+                            memberID = memberID
+                        });
+                    Console.WriteLine($"ClientID: {HttpContext.Session.GetString("ClientID")}");
+                    // Add new assignments
+                    _context.assignedTasks.AddRange(membersToAdd);
+
+                    // Save changes
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index", new { ClientID = HttpContext.Session.GetString("ClientID") });
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!TasksExists(tasks.TaskID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return View("Error");
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(tasks);
+
+            var teamMembers = _context.companiesTeam.Where(ct => ct.CompanyID == companyId).ToList();
+
+            // Get the IDs of members already assigned to this task
+            var assignedMemberIDs = _context.assignedTasks
+                .Where(tm => tm.TaskID == tasks.TaskID)
+                .Select(tm => tm.memberID)
+                .ToList();
+
+            // Populate the model
+            CreateTask model = new CreateTask()
+            {
+                Tasks = tasks,
+                TeamMembers = teamMembers
+            };
+
+            // Pass the assigned Member IDs via ViewBag
+            ViewBag.AssignedMembers = assignedMemberIDs;
+
+            return View(model);
         }
+
 
         // GET: Tasks/Delete/5
         public async Task<IActionResult> Delete(int? id)
