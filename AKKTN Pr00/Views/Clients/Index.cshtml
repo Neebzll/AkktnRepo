@@ -1,0 +1,138 @@
+﻿@model IEnumerable<AKKTN_Pr00.Models.Clients>
+@{
+    var isAdmin = ViewData["isAdmin"] as bool? ?? false;
+}
+<style>
+      .movetable {
+      
+        margin-left: -88px; /* Adjust the value to move the table further left */
+    }
+</style>
+<div class="movetable">
+<h1 >@Context.Session.GetString("CompanyName") Clients</h1>
+<hr/>
+<!-- Admin Password Form (Initially hidden) -->
+<div id="adminPasswordFormTemplate" style="display:none; margin-top: 20px;">
+    <form method="post" asp-action="Index" asp-controller="Clients">
+        <input type="hidden" name="ClientID" id="formClientID" value="" />
+        <input type="hidden" name="CompanyID" id="formCompanyID" value="" />
+        <input type="hidden" name="action" id="formaction" value="" />
+        <div class="form-group">
+            <label for="pass">Enter Password</label>
+            <input type="password" name="pass" class="form-control" id="formPass" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<p>
+    <a class="btn btn-outline-secondary" asp-action="Create" class="adminButton" asp-controller="Clients" asp-action="Create" asp-route-id="@ViewData["ID"]">Add new client</a>
+</p>
+@{
+    if (Model==null)
+    {
+        <p>Company has no clients</p>
+    }else{
+
+
+        <table class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(model => model.ClientName)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.RegistrationNumber)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.VAT)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.VATPeriod)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.PayeeNumber)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.EMP501)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.UIF)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.WCC)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Payroll)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.MonthlyCashbook)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.FinancialStatements)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.IncomeTaxReturn)</th>
+                    <th></th>
+                </tr>
+            </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", new { id = item.ClientID })" >
+                                    @item.ClientName
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    if (isAdmin)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                                    }
+                                    else
+                                    {
+                                        <span>##########</span>
+                                    }
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.VAT)</td>
+                            <td>@Html.DisplayFor(modelItem => item.VATPeriod)</td>
+                            <td>@(item.PayeeNumber ? "Yes" : "No")</td>
+                            <td>@(item.EMP501 ? "Yes" : "No")</td>
+                            <td>@(item.UIF ? "Yes" : "No")</td>
+                            <td>@(item.WCC ? "Yes" : "No")</td>
+                            <td>@(item.Payroll ? "Yes" : "No")</td>
+                            <td>@(item.MonthlyCashbook ? "Yes" : "No")</td>
+                            <td>@(item.FinancialStatements ? "Yes" : "No")</td>
+                            <td>@(item.IncomeTaxReturn ? "Yes" : "No")</td>
+                            <td class="d-flex flex-row">
+                                <a href="@Url.Action("Edit", new { id = item.ClientID })" class="btn btn-outline-info" style="margin-left:10px">
+                                    Edit
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.ClientID })" class="btn btn-outline-danger" style="margin-left:10px">
+                                    Delete
+                                </a>
+                                <a href="@Url.Action("Index", "Tasks", new { clientid = item.ClientID, id = item.CompanyID })" class="btn btn-outline-warning" style="margin-left:10px">
+                                    Tasks
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+        </table>
+    }
+}
+
+</div>
+@* 
+<script>
+
+       document.querySelectorAll('.adminButton').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            // Hide all the other buttons in the same row
+            const row = this.closest('tr');
+            const otherButtons = row.querySelectorAll('.adminButton');
+            otherButtons.forEach(btn => btn.style.display = 'none'); // Hide all CRUD buttons
+
+            // Show the admin password form
+            const formTemplate = document.getElementById('adminPasswordFormTemplate');
+            const formClone = formTemplate.cloneNode(true);
+            formClone.id = ""; // Remove the template ID
+            formClone.style.display = "block";
+
+            // Set ClientID and CompanyID in the form
+            formClone.querySelector('#formClientID').value = this.dataset.clientid;
+            formClone.querySelector('#formCompanyID').value = this.dataset.companyid;
+            formClone.querySelector('#formaction').value = this.dataset.action;
+
+            // Append the form below the clicked button
+            this.parentElement.appendChild(formClone);
+
+            // Hide the clicked button after click
+            this.style.display = "none";
+        });
+    });
+
+</script>
+ *@

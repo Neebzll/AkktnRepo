@@ -1,0 +1,62 @@
+﻿@model AKKTN_Pr00.Models.Tasks
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    /* .nav-link {
+        display: none;
+    } */
+
+    .itemHide .nav-link.text-dark.signed {
+        display: none;
+    }
+</style>
+<h1>Details</h1>
+
+<div>
+    <h4>Tasks</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2 visually-hidden">
+            @Html.DisplayNameFor(model => model.CompanyID)
+        </dt>
+        <dd class = "col-sm-10 visually-hidden">
+            @Html.DisplayFor(model => model.CompanyID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaskDescription)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssignTaskDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssignTaskDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reminders)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reminders)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaskStatus)
+        </dd>
+    </dl>
+</div>
+@* <div>
+    <a asp-action="Edit" asp-route-id="@Model?.TaskID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div> *@

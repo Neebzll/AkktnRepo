@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using AKKTN_Pr00.Data;
 
 #nullable disable
 

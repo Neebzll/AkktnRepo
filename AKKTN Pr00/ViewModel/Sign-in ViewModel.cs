@@ -1,18 +1,17 @@
-﻿using Google.Apis.Admin.Directory.directory_v1.Data;
+﻿
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Login_and_Registration.ViewModel
+namespace AKKTN_Pr00.ViewModel
 {
     public class Sign_in_ViewModel
     {
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "EmailAddress 1 is required")]
    
-        public string Email { get; set; }
-
-        [Required(ErrorMessage = "Password is required")]
+        public string EmailAddress1 { get; set; }
+        [Required(ErrorMessage = "company password is required")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string companypassword { get; set; }
 
         [Display(Name = "Remember Me?")]
         public bool RememberMe { get; set; }

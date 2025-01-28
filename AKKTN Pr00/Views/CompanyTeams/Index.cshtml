@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AKKTN_Pr00.Models.CompanyTeam>
+
+
+
+<h1>@Context.Session.GetString("CompanyName") Team members</h1>
+<hr />
+<p>
+    <a class="btn btn-outline-secondary" asp-action="Create" asp-controller="CompanyTeams" asp-route-id="@ViewData["ID"]">Add new member</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.memberID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.memberID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cell)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+                <td class="d-flex flex-row">
+                    <a asp-action="Edit" style="margin-left:10px" class="btn btn-outline-info" asp-route-id="@item.memberID">Edit</a> 
+                    <a asp-action="Details" style="margin-left:10px" class="btn btn-outline-primary" asp-route-id="@item.memberID">Details</a> 
+                    <a asp-action="Delete" style="margin-left:10px" class="btn btn-outline-danger" asp-route-id="@item.memberID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

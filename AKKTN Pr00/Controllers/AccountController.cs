@@ -1,36 +1,54 @@
-﻿using Google.Apis.Admin.Directory.directory_v1.Data;
-using Login_and_Registration.ViewModel;
+﻿
+using AKKTN_Pr00.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using AKKTN_Pr00.Models;
+using DocumentFormat.OpenXml.InkML;
+using AKKTN_Pr00.Data;
+using System.Text;
+using System.Security.Cryptography;
+using System.Reflection.Metadata.Ecma335;
 
-namespace Login_and_Registration.Controllers
+namespace AKKTN_Pr00.Controllers
 {
 
     public class AccountController : Controller
     {
-        private readonly SignInManager<Users>? signInManager;
-        private readonly UserManager<Users>? userManager;
+        private readonly SignInManager<user>? signInManager;
+        private readonly UserManager<user>? userManager;
+        private readonly AppDBContext _context;
 
-        public AccountController(SignInManager<Users>? signInManager, UserManager<Users>? userManager)
+        public AccountController(SignInManager<user>? signInManager, UserManager<user>? userManager,AppDBContext context)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            _context = context;
         }
 
         public IActionResult Login()
         {
+        
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(Sign_in_ViewModel model)
+        public IActionResult Login(Sign_in_ViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                model.companypassword =hashpassword(model.companypassword);
+                var findemail = _context.companies
+                    .FirstOrDefault(ad =>
+                        (ad.Email1.Equals(model.EmailAddress1) || ad.Email2.Equals(model.EmailAddress1))
+                        && ad.companypass.Equals(model.companypassword));
 
-                if (result.Succeeded)
+                if (findemail != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    
+                    HttpContext.Session.SetString("isAdmin", "false");
+                    HttpContext.Session.SetString("Signed", model.EmailAddress1);
+                    HttpContext.Session.SetString("companyID", findemail.CompanyID);
+
+                    return RedirectToAction("Index", "Clients", new { id= findemail.CompanyID });
                 }
                 else
                 {
@@ -39,39 +57,84 @@ namespace Login_and_Registration.Controllers
                 }
             }
             return View(model);
-        }
 
+        }
+        private static string GenerateCompanyId(string CompanyName, string cellphone1)
+        {
+            // Combine the company name and cell
+            string combined = $"{CompanyName.Trim().ToLower()}-{cellphone1.Trim()}";
+
+            // Generate a hash of the combined string
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(combined));
+                // Convert the byte array to a hexadecimal string
+                StringBuilder hashString = new StringBuilder();
+                foreach (byte b in hashBytes)
+                {
+                    hashString.Append(b.ToString("x2"));
+                }
+
+                // Return the first 10 characters of the hash as the Company ID
+                return hashString.ToString().Substring(0, 10).ToUpper();
+            }
+        }
         public IActionResult Register()
         {
             return View();
         }
+        public string hashpassword(string password)
+        {
+            SHA256 sha256 = SHA256.Create();
+            var bytes=Encoding.Default.GetBytes(password);
+            var hashed= sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hashed);
+        }
         [HttpPost]
-        public async Task<IActionResult> Register(Sign_UpViewModel model)
+        public async Task<IActionResult> Register([Bind("CompanyName,companypassword,confirmcompanypassword,RegistrationNumber,status,ContactName1,EmailAddress1,Cellphone1,ContactName2,EmailAddress2,Cellphone2")] Sign_UpViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Users users = new Users
-                {
-                    FullName​ = model.CompanyName​,
-                    Email = model.Email,
-                    UserName = model.Email,
-                };
+                string ID = "";
 
-                var result = await userManager.CreateAsync(users, model.Password);
+                ID = GenerateCompanyId(model.CompanyName, model.Cellphone1);;
+                
+                string hashedpass = hashpassword(model.companypassword);
+               Company com=new Company() {
+                   CompanyID=ID,
+                   CompanyName=model.CompanyName,
+                   companypass=hashedpass,
+                   ContactName1 = model.ContactName1,
+                   Email1=model.EmailAddress1,
+                   Cell1 = model.Cellphone1,
+                   ContactName2 = model.ContactName2,
+                   Cell2 = model.Cellphone2,
+                   Email2 = model.EmailAddress2,
+                   RegistrationNumber = model.RegistrationNumber,
+                   Status=model.status
+                   
+               };
 
-                if (result.Succeeded)
-                {
+                _context.companies.Add(com);
+                await _context.SaveChangesAsync();
+
+
+                //user user = new user 
+                //{
+                
+                //    FullName = model.CompanyName,
+                //    UserName = model.EmailAddress1,
+                //    Email = model.EmailAddress1
+
+
+                // };
+
+                //var result = await userManager.CreateAsync(user , model.companypassword);
+
+               //await signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    return View(model);
-                }
+                
+            
             }
             return View(model);
         }
@@ -141,10 +204,10 @@ namespace Login_and_Registration.Controllers
                 return View(model);
             }
         }
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.Clear(); // Clear all session data
+            return RedirectToAction("Login", "Account");
         }
 
     }

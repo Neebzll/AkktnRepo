@@ -1,0 +1,62 @@
+﻿@model AKKTN_Pr00.Models.CompanyTeam
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+  /*   .nav-link {
+        display: none;
+    } */
+
+    .itemHide .nav-link.text-dark.signed {
+        display: none;
+    }
+</style>
+<h1>Details</h1>
+
+<div>
+    <h4>CompanyTeam</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CompanyID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CompanyID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContactName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContactName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.JobTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cell)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cell)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.memberID">Edit</a> |
+   @*  <a asp-action="Index">Back to List</a> *@
+</div>
