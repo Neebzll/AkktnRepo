@@ -50,26 +50,33 @@ namespace AKKTN_Pr00.Controllers
             id =HttpContext.Session.GetString("companyID");
             // Fetch tasks based on the provided CompanyID
             var tasks = await _context.assignedTasks
-                    .Where(at => at.ClientID == ClientID)
-                    .Join(_context.tasks,
-                          at => at.TaskID,
-                          task => task.TaskID,
-                          (at, task) => task)
-                    .Where(task => task.CompanyID == id)
-                    .ToListAsync();
+     .Where(at => at.ClientID == ClientID)
+     .Join(_context.tasks,
+           at => at.TaskID,
+           task => task.TaskID,
+           (at, task) => task)
+     .Where(task => task.CompanyID == id)
+     .Distinct() // Ensures unique tasks
+     .ToListAsync();
+
 
             // Fetch members for each task filtered by ClientID and CompanyID
-            var taskMembers = tasks.ToDictionary(
-                task => task.TaskID,
-                task => _context.assignedTasks
-                    .Where(at => at.TaskID == task.TaskID)
-                    .Join(_context.companiesTeam,
-                          at => at.memberID,
-                          member => member.memberID,
-                          (at, member) => member)
-                    .Where(member => member.CompanyID == id) // Ensure the member is linked to the CompanyID
-                    .ToList()
-            );
+            var taskMembers = new Dictionary<int, List<CompanyTeam>>();
+            foreach (var task in tasks)
+            {
+                if (!taskMembers.ContainsKey(task.TaskID))
+                {
+                    taskMembers[task.TaskID] = _context.assignedTasks
+                        .Where(at => at.TaskID == task.TaskID)
+                        .Join(_context.companiesTeam,
+                              at => at.memberID,
+                              member => member.memberID,
+                              (at, member) => member)
+                        .Where(member => member.CompanyID == id)
+                        .ToList();
+                }
+            }
+
 
 
             // Populate ViewModel

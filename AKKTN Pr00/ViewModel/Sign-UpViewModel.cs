@@ -9,13 +9,14 @@ namespace AKKTN_Pr00.ViewModel
         [Required(ErrorMessage = "CompanyName is required")]
         public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "companypassword is required")]
+        [Required(ErrorMessage = "password is required")]
         [StringLength(40, MinimumLength = 8, ErrorMessage = "The {0} must be at {2} and at max {1} characters long.")]
-        [Compare("confirmcompanypassword", ErrorMessage = "company password does not match.")]
         //[DataType(DataType.Password)]
         public string companypassword { get; set; }
 
-        [Required(ErrorMessage = "confirm company password is required")]
+        [Required(ErrorMessage = "confirm password is required")]
+        [Compare("companypassword", ErrorMessage = "password does not match with confirm password.")]
+
         public string confirmcompanypassword { get; set; }
 
         [Required(ErrorMessage = "Registration number is required")]
@@ -34,12 +35,12 @@ namespace AKKTN_Pr00.ViewModel
         public string Cellphone1 { get; set; }
 
         //[Required(ErrorMessage = "ContactName 2 is required")]
-        public string ContactName2 { get; set; }
+        public string? ContactName2 { get; set; }
 
         //[Required(ErrorMessage = "Email Address 2 is required")]
-        public string EmailAddress2 { get; set; }
+        public string? EmailAddress2 { get; set; }
         //[Required(ErrorMessage = "Cellphone2 is required")]
-        public string Cellphone2 { get; set; }
+        public string? Cellphone2 { get; set; }
 
         //public string CompanyId { get; private set; }
 
