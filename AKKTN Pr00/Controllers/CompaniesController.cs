@@ -9,6 +9,8 @@ using AKKTN_Pr00.Data;
 using AKKTN_Pr00.Models;
 using System.Collections;
 using System.ComponentModel.Design;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace AKKTN_Pr00.Controllers
 {
@@ -99,13 +101,19 @@ namespace AKKTN_Pr00.Controllers
             }
             return View(company);
         }
-
+        public string hashpassword(string password)
+        {
+            SHA256 sha256 = SHA256.Create();
+            var bytes = Encoding.Default.GetBytes(password);
+            var hashed = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hashed);
+        }
         // POST: Companies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CompanyID,CompanyName,companypass,RegistrationNumber,Status,ContactName1,Email1,Cell1,ContactName2,Email2,Cell2")] Company company)
+        public async Task<IActionResult> Edit(string id, [Bind("CompanyID,CompanyName,RegistrationNumber,Status,ContactName1,Email1,Cell1,ContactName2,Email2,Cell2")] Company company, string? newPassword)
         {
             if (id != company.CompanyID)
             {
@@ -114,15 +122,36 @@ namespace AKKTN_Pr00.Controllers
 
             if (ModelState.IsValid)
             {
-                
-                    _context.Update(company);
-                    await _context.SaveChangesAsync();
-                
-               
-                
-                return RedirectToAction("AdminDash","Admin");
+                var existingCompany = await _context.companies.FindAsync(id);
+                if (existingCompany == null)
+                {
+                    return NotFound();
+                }
+
+                // Preserve the existing password if no new password is entered
+                if (!string.IsNullOrEmpty(newPassword))
+                {
+                    existingCompany.companypass = hashpassword(newPassword); // Hash new password
+                }
+
+                // Update other fields
+                existingCompany.CompanyName = company.CompanyName;
+                existingCompany.RegistrationNumber = company.RegistrationNumber;
+                existingCompany.Status = company.Status;
+                existingCompany.ContactName1 = company.ContactName1;
+                existingCompany.Email1 = company.Email1;
+                existingCompany.Cell1 = company.Cell1;
+                existingCompany.ContactName2 = company.ContactName2;
+                existingCompany.Email2 = company.Email2;
+                existingCompany.Cell2 = company.Cell2;
+
+                _context.Update(existingCompany);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("AdminDash", "Admin");
             }
-            return RedirectToAction("AdminDash", "Admin");
+
+            return View(company);
         }
 
         // GET: Companies/Delete/5

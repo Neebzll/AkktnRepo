@@ -16,12 +16,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CompanyName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.companypass)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.companypass)
-        </dd>
+        @{
+            if(Context.Session.GetString("isAdmin").Equals("true")){
+
+                <dd class="col-sm-10">
+                    ##########
+                </dd>
+            }else{
+
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.companypass)
+                </dd>
+            }
+        }
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RegistrationNumber)
         </dt>

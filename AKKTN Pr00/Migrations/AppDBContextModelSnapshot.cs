@@ -120,7 +120,7 @@ namespace AKKTN_Pr00.Migrations
                         .HasColumnType("nvarchar(11)");
 
                     b.Property<string>("Cell2")
-                        .IsRequired()
+                       
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
@@ -135,7 +135,7 @@ namespace AKKTN_Pr00.Migrations
                         .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("ContactName2")
-                        .IsRequired()
+                       
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
@@ -145,14 +145,14 @@ namespace AKKTN_Pr00.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Email2")
-                        .IsRequired()
+                       
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<string>("Status")
                         .IsRequired()

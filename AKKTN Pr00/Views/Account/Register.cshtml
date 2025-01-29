@@ -19,23 +19,31 @@
         <form asp-action="Register" method="post" asp-controller="Account">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
-                <label asp-for="CompanyName" class="form-label"></label>
+                <label asp-for="CompanyName" class="form-label">Company Name <span style="color:red"> *</span></label>
                 <input asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="companypassword" class="form-label"></label>
-                <input type="password" asp-for="companypassword" class="form-control" value="#pass123"/>
+                <label asp-for="companypassword" class="form-label">Password <span style="color:red"> *</span></label>
+                <input type="password" asp-for="companypassword" class="form-control" />
                 <span asp-validation-for="companypassword" class="text-danger"></span>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="ShowPassword" />
+                    <label class="form-check-label" for="ShowPassword">Show Password</label>
+                </div>
             </div>
             <div class="mb-3">
-                <label asp-for="confirmcompanypassword" class="form-label"></label>
-                <input type="password" asp-for="confirmcompanypassword" class="form-control" value="#pass123"/>
+                <label asp-for="confirmcompanypassword" class="form-label">Confirm Password <span style="color:red"> *</span></label>
+                <input type="password" asp-for="confirmcompanypassword" class="form-control" />
                 <span asp-validation-for="confirmcompanypassword" class="text-danger"></span>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="ShowconfirmPassword" />
+                    <label class="form-check-label" for="ShowPassword">Show Password</label>
+                </div>
             </div>
 
             <div class="mb-3">
-                <label asp-for="RegistrationNumber" class="form-label"></label>
+                <label asp-for="RegistrationNumber" class="form-label">Registration Number <span style="color:red"> *</span></label>
                 <input asp-for="RegistrationNumber" class="form-control" />
                 <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
             </div>
@@ -46,37 +54,37 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="ContactName1​" class="form-label"></label>
+                <label asp-for="ContactName1​" class="form-label">Contact Name <span style="color:red"> *</span></label>
                 <input asp-for="ContactName1​" class="form-control" />
                 <span asp-validation-for="ContactName1​" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="EmailAddress1" class="form-label"></label>
+                <label asp-for="EmailAddress1" class="form-label">Email Address <span style="color:red"> *</span></label>
                 <input asp-for="EmailAddress1" class="form-control" />
                 <span asp-validation-for="EmailAddress1" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Cellphone1" class="form-label"></label>
+                <label asp-for="Cellphone1" class="form-label">Cellphone Number <span style="color:red"> *</span></label>
                 <input asp-for="Cellphone1" class="form-control" />
                 <span asp-validation-for="Cellphone1" class="text-danger"></span>
             </div>
-
+            <h3>Enter Additional Details (Optional)</h3>
             <div class="mb-3">
-                <label asp-for="ContactName2" class="form-label"></label>
+                <label asp-for="ContactName2" class="form-label">Additional Contact Name</label>
                 <input asp-for="ContactName2" class="form-control" />
                 <span asp-validation-for="ContactName2​" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="EmailAddress2" class="form-label"></label>
+                <label asp-for="EmailAddress2" class="form-label">Additional Email Address</label>
                 <input asp-for="EmailAddress2" class="form-control" />
                 <span asp-validation-for="EmailAddress2" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Cellphone2" class="form-label"></label>
+                <label asp-for="Cellphone2" class="form-label">Additional Cellphone Number</label>
                 <input asp-for="Cellphone2" class="form-control" />
                 <span asp-validation-for="Cellphone2" class="text-danger"></span>
             </div>
@@ -98,7 +106,25 @@
       
     </div>
 </div>
-
+<script>
+    // Toggle the password visibility
+    document.getElementById('ShowPassword').addEventListener('change', function() {
+        var passwordField = document.getElementById('companypassword');
+        if (this.checked) {
+            passwordField.type = 'text'; // Show password
+        } else {
+            passwordField.type = 'password'; // Hide password
+        }
+    });    
+    document.getElementById('ShowconfirmPassword').addEventListener('change', function() {
+        var passwordField = document.getElementById('confirmcompanypassword');
+        if (this.checked) {
+            passwordField.type = 'text'; // Show password
+        } else {
+            passwordField.type = 'password'; // Hide password
+        }
+    });
+</script>>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");

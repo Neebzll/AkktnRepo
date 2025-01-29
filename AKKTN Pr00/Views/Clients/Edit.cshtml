@@ -57,7 +57,13 @@
             </div>
             <div class="form-group" id="VATPeriodContainer" style="display:none;">
                 <label asp-for="VATPeriod" class="control-label"></label>
-                <input asp-for="VATPeriod" name="VATPeriod" class="form-control" />
+                <select asp-for="VATPeriod" class="form-control" name="VATPeriod">
+
+                    <option value="Monthly">Monthly</option>
+                    <option value="annual">annual</option>
+                    <option value="semi-annual">semi-annual</option>
+                    <option value="four-monthly">four-monthly</option>
+                </select>
                 <span asp-validation-for="VATPeriod" class="text-danger"></span>
             </div>
             @*             <div class="form-group form-check">

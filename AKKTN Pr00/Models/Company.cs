@@ -17,7 +17,7 @@ namespace AKKTN_Pr00.Models
         public string companypass { get; set; }
 
         [Required]
-        [StringLength(13,ErrorMessage ="Registration number must be under 13 characters")]
+        [StringLength(14,ErrorMessage ="Registration number must be under 13 characters")]
         public string RegistrationNumber { get; set; }
         
         //[Required]
@@ -37,13 +37,13 @@ namespace AKKTN_Pr00.Models
         
         
         [StringLength(80,ErrorMessage ="Contact name must be under 80 characters")]
-        public string ContactName2 { get; set; }
+        public string? ContactName2 { get; set; }
         
         [StringLength(150,ErrorMessage ="email address must be under 150")]
-        public string Email2 { get; set; }
+        public string? Email2 { get; set; }
         
         [StringLength(11,ErrorMessage ="Cellphone Number must at least be under 11 characters")]
-        public string Cell2 { get; set; }
+        public string? Cell2 { get; set; }
 
 
     }
