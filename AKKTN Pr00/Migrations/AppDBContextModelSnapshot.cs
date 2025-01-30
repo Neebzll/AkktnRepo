@@ -110,7 +110,7 @@ namespace AKKTN_Pr00.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
                     b.Property <string>("companypass")
-                    .IsRequired()
+                    
                     .HasMaxLength(15)
                     .HasColumnType("nvarchar(15)");
 
