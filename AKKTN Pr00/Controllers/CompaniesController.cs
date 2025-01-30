@@ -120,18 +120,18 @@ namespace AKKTN_Pr00.Controllers
                 return NotFound();
             }
 
+            var existingCompany = await _context.companies.FindAsync(id);
+            if (existingCompany == null)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                var existingCompany = await _context.companies.FindAsync(id);
-                if (existingCompany == null)
-                {
-                    return NotFound();
-                }
-
-                // Preserve the existing password if no new password is entered
+                // If a new password is provided, hash and update it
                 if (!string.IsNullOrEmpty(newPassword))
                 {
-                    existingCompany.companypass = hashpassword(newPassword); // Hash new password
+                    existingCompany.companypass = hashpassword(newPassword);
                 }
 
                 // Update other fields
@@ -145,15 +145,30 @@ namespace AKKTN_Pr00.Controllers
                 existingCompany.Email2 = company.Email2;
                 existingCompany.Cell2 = company.Cell2;
 
-                _context.Update(existingCompany);
+                _context.companies.Update(existingCompany);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("AdminDash", "Admin");
+                // Redirect based on session role
+                if (HttpContext.Session.GetString("isAdmin") == "true")
+                {
+                    return RedirectToAction("AdminDash", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Clients");
+                }
+            }
+            else if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Model Error: {error.ErrorMessage}");
+                }
+                return View(company);
             }
 
             return View(company);
         }
-
         // GET: Companies/Delete/5
         public async Task<IActionResult> Delete(string id)
         {

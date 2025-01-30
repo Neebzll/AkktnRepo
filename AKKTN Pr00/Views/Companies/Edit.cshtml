@@ -14,44 +14,51 @@
 </style>
 <h1>Edit</h1>
 
-<h4>Company</h4>
+<h4>Company Profile</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post" asp-controller="Companies">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CompanyID" />
+            <input class="visually-hidden" asp-for="CompanyID" />
+
             <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
                 <input asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
+
+            <!-- New Password Field (Optional) -->
             <div class="form-group mt-3">
-              @*   <label asp-for="companypass" class="control-label"></label> *@
-                @* <input asp-for="companypass" class="form-control" /> *@
-                <a asp-action="Edit">Change password</a>
-             @*    <span asp-validation-for="companypass" class="text-danger"></span> *@
+                <label asp-for="NewPassword" class="control-label">New Password (optional)</label>
+                <input asp-for="NewPassword" class="form-control" type="password" />
+                <span asp-validation-for="NewPassword" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <label asp-for="RegistrationNumber" class="control-label"></label>
                 <input asp-for="RegistrationNumber" class="form-control" />
                 <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <label asp-for="ContactName1" class="control-label"></label>
                 <input asp-for="ContactName1" class="form-control" />
                 <span asp-validation-for="ContactName1" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <label asp-for="Email1" class="control-label"></label>
                 <input asp-for="Email1" class="form-control" />
                 <span asp-validation-for="Email1" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <label asp-for="Cell1" class="control-label"></label>
                 <input asp-for="Cell1" class="form-control" />
@@ -62,16 +69,19 @@
                 <input asp-for="ContactName2" class="form-control" />
                 <span asp-validation-for="ContactName2" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <label asp-for="Email2" class="control-label"></label>
                 <input asp-for="Email2" class="form-control" />
                 <span asp-validation-for="Email2" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <label asp-for="Cell2" class="control-label"></label>
                 <input asp-for="Cell2" class="form-control" />
                 <span asp-validation-for="Cell2" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

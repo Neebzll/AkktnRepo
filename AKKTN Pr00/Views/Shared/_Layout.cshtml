@@ -66,16 +66,27 @@
                                     if(isadmin.Equals("true")){
                                         <li>
                                             <form asp-controller="admin" asp-action="Logout" method="post" class="d-inline">
-                                                <button type="submit" class="dropdown-item">Logout</button>
+                                                <button type="submit" class="dropdown-item d-flex align-items-center"><span><i class="bi bi-box-arrow-left me-2"> </i></span> Logout</button>
                                             </form>
                                         </li>
                                     }
                                     else{
                                         <li>
-                                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                                <button type="submit" class="dropdown-item">Logout</button>
-                                            </form>
+                                            <div class="d-inline">
+                                                <a asp-controller="Companies" asp-action="Edit" class="dropdown-item" asp-route-id="@Context.Session.GetString("companyID")" class="d-inline">
+                                                    <i class="bi bi-person-fill me-2"></i> Profile
+                                                </a>
+                                            </div>
+
                                         </li>
+                                        <li>
+                                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                                <button type="submit" class="dropdown-item d-flex align-items-center">
+                                                    <i class="bi bi-box-arrow-left me-2"></i> Logout
+                                                </button>
+                                            </form>
+                                        </li>  
+                                    
                                     }
                                 }
                             </ul>
