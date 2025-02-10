@@ -86,7 +86,8 @@ namespace AKKTN_Pr00.Migrations
                     Cell1 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     ContactName2 = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
                     Email2 = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Cell2 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                    Cell2 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    MFAEnabled=table.Column<bool>(type:"bit",nullable: true),
                 },
                 constraints: table =>
                 {

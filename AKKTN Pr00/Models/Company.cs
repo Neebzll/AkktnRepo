@@ -98,6 +98,13 @@ namespace AKKTN_Pr00.Models
 
         [StringLength(11, ErrorMessage = "Cellphone Number must at least be under 11 characters")]
         public string? Cell2 { get; set; }
+
+        public bool? MFAEnabled { get; set; }
+        [NotMapped]
+        public string? SharedKey { get; set; }
+
+        [NotMapped]
+        public string? AuthenticatorUri { get; set; }
     }
 }
 

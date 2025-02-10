@@ -99,6 +99,7 @@ namespace AKKTN_Pr00.Controllers
             {
                 return NotFound();
             }
+
             return View(company);
         }
         public string hashpassword(string password)
@@ -232,7 +233,16 @@ namespace AKKTN_Pr00.Controllers
                 _context.companies.Remove(company);
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction("AdminDash","admin");
+            if (HttpContext.Session.GetString("isAdmin").Equals("true"))
+            {
+                return RedirectToAction("AdminDash", "admin");
+            }
+            else
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
+           
         }
 
         private bool CompanyExists(string id)

@@ -157,6 +157,9 @@ namespace AKKTN_Pr00.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+                    
+                    b.Property<string>("MFAEnabled")
+                        .HasColumnType("Bit");
 
                     b.HasKey("CompanyID");
 
