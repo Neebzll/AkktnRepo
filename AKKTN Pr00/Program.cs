@@ -3,11 +3,26 @@ using Microsoft.AspNetCore.Identity;
 using AKKTN_Pr00.Models;
 using AKKTN_Pr00.Data;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Auth0.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//builder.Services
+//    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddAuth0WebAppAuthentication(options =>
+//    {
+//        options.Domain = builder.Configuration["Auth0:Domain"];
+//        options.ClientId = builder.Configuration["Auth0:ClientId"];
+//        options.CallbackPath = new PathString("/callback"); // Make sure this matches the URL path
+
+//        options.Scope = "openid profile email"; // Ensures Auth0 returns user profile details
+//    });
+;
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+
 
 // Configure the database context
 builder.Services.AddDbContext<AppDBContext>(options =>
